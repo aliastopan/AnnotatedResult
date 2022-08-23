@@ -25,7 +25,8 @@ namespace AnnotatedResult
 
         public static Result<T> Validate(T value)
         {
-            bool isValid = ResultValidator.TryValidate(value, out var results);
+            var validator = new ResultValidator();
+            var isValid = validator.TryValidate(value, out var results);
             if(isValid)
             {
                 return Result<T>.Ok(value);
