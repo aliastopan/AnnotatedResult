@@ -1,3 +1,4 @@
+using System;
 using AnnotatedResult.Common;
 
 namespace AnnotatedResult
@@ -17,5 +18,6 @@ namespace AnnotatedResult
         }
 
         public T Value { get; private set; }
+        public Type ValueType => Value.GetType();
     }
 }
