@@ -8,7 +8,7 @@ public static class ResultValidation
     {
         Serilog.Log.Information("Starting...");
 
-        var result = Result.Validate(new Request()
+        var result = Result<Request>.Validate(new Request()
         {
             Username = "John Wick",
             Email = "john.wick@continental",
