@@ -8,12 +8,18 @@ public static class ResultValidation
     {
         Serilog.Log.Information("Starting...");
 
-        var request = new Request();
-        var result = Result.Validate(request);
+        var result = Result.Validate(new Request()
+        {
+            Username = "John Wick",
+            Email = "john.wick@continental",
+            Password = "FortisFortunaAdiuvat"
+        });
 
         if(result.IsSuccess)
         {
+            Request request = result;
             Serilog.Log.Information("Status: {0}", result.Status);
+            Serilog.Log.Information("Result: {0}", request.Email);
             return;
         }
 
