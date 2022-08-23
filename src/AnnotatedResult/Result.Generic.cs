@@ -17,6 +17,8 @@ namespace AnnotatedResult
             Value = value;
         }
 
+        public static implicit operator T(Result<T> result) => result.Value;
+
         public T Value { get; private set; }
         public Type ValueType => Value.GetType();
     }
