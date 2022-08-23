@@ -37,5 +37,22 @@ namespace AnnotatedResult
         {
             return new Result(ResultStatus.Error, errors);
         }
+
+        public static Result<T> Invalid<T>(IEnumerable<string> errors)
+        {
+            return new Result<T>(default, ResultStatus.Invalid, errors);
+        }
+
+        public static Result<T> Validate<T>(T value)
+        {
+            bool isValid = ResultValidator.TryValidate(value, out var results);
+
+            if(isValid)
+                return Result.Ok(value);
+
+            var errors = new List<string>();
+            results.ForEach(error => errors.Add(error.ErrorMessage));
+            return Result.Invalid<T>(errors);
+        }
     }
 }
