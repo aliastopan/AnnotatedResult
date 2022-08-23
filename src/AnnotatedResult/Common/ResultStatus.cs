@@ -4,6 +4,10 @@ namespace AnnotatedResult.Common
     {
         Ok,
         Error,
-        Invalid
+        Invalid,
+        Unauthorized,
+        Forbidden,
+        Conflict,
+        NotFound,
     }
 }

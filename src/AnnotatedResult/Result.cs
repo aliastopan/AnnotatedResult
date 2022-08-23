@@ -59,5 +59,25 @@ namespace AnnotatedResult
             results.ForEach(error => errors.Add(error.ErrorMessage));
             return Result.Invalid<T>(errors.ToArray());
         }
+
+        public static Result Unauthorized<T>()
+        {
+            return new Result<T>(default, ResultStatus.Unauthorized);
+        }
+
+        public static Result Forbidden<T>()
+        {
+            return new Result<T>(default, ResultStatus.Forbidden);
+        }
+
+        public static Result Conflict<T>()
+        {
+            return new Result<T>(default, ResultStatus.Conflict);
+        }
+
+        public static Result NotFound<T>()
+        {
+            return new Result<T>(default, ResultStatus.NotFound);
+        }
     }
 }
