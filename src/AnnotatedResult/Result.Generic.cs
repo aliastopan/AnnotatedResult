@@ -23,9 +23,8 @@ namespace AnnotatedResult
         public T Value { get; private set; }
         public Type ValueType => Value.GetType();
 
-        public static Result<T> Validate(T value)
+        public static Result<T> Validate(T value, IResultValidator validator)
         {
-            var validator = new ResultValidator();
             var isValid = validator.TryValidate(value, out var results);
             if(isValid)
             {
@@ -35,6 +34,11 @@ namespace AnnotatedResult
             var errors = new List<string>();
             results.ForEach(error => errors.Add(error.ErrorMessage));
             return Result<T>.Invalid(errors.ToArray());
+        }
+
+        public static Result<T> Validate(T value)
+        {
+            return Result<T>.Validate(value, new ResultValidator());
         }
 
         public static Result<T> Ok(T value)
