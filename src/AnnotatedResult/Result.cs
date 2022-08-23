@@ -17,6 +17,11 @@ namespace AnnotatedResult
             return new Result(ResultStatus.Ok);
         }
 
+        public static Result<T> Ok<T>(T value)
+        {
+            return new Result<T>(value, ResultStatus.Ok);
+        }
+
         public static Result Error()
         {
             return new Result(ResultStatus.Error);
