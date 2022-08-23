@@ -9,7 +9,7 @@ namespace AnnotatedResult
             Status = status;
         }
 
-        public ResultStatus Status { get; set; }
+        public ResultStatus Status { get; protected set; }
         public bool IsSuccess => Status == ResultStatus.Ok;
 
         public static Result Ok()
