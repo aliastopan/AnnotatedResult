@@ -1,0 +1,2 @@
+global using AnnotatedResult.MinimalApiTests.Extensions;
+global using AnnotatedResult.MinimalApiTests.Interfaces;

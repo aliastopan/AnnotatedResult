@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C1EA916C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnnotatedResult.SampleTests", "tests\AnnotatedResult.SampleTests\AnnotatedResult.SampleTests.csproj", "{A83FBED9-077B-4912-B9B8-5D435FFCE546}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnnotatedResult.MinimalApiTests", "tests\AnnotatedResult.MinimalApiTests\AnnotatedResult.MinimalApiTests.csproj", "{E06E4716-5616-466A-A61C-E5C3679C1F2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,9 +30,14 @@ Global
 		{A83FBED9-077B-4912-B9B8-5D435FFCE546}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A83FBED9-077B-4912-B9B8-5D435FFCE546}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A83FBED9-077B-4912-B9B8-5D435FFCE546}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E06E4716-5616-466A-A61C-E5C3679C1F2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E06E4716-5616-466A-A61C-E5C3679C1F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E06E4716-5616-466A-A61C-E5C3679C1F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E06E4716-5616-466A-A61C-E5C3679C1F2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{39C4190C-7249-458E-99C8-5A5695518EE4} = {D301CA1A-E5EA-4285-992D-1CC4FB533FBD}
 		{A83FBED9-077B-4912-B9B8-5D435FFCE546} = {C1EA916C-E3E0-44B2-8DB3-EBE0B02A1312}
+		{E06E4716-5616-466A-A61C-E5C3679C1F2D} = {C1EA916C-E3E0-44B2-8DB3-EBE0B02A1312}
 	EndGlobalSection
 EndGlobal
