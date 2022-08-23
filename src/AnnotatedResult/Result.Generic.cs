@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using AnnotatedResult.Common;
 
 namespace AnnotatedResult
@@ -11,8 +10,8 @@ namespace AnnotatedResult
             Value = value;
         }
 
-        internal protected Result(T value, ResultStatus status, IEnumerable<string> errors)
-            : base(status, errors)
+        internal protected Result(T value, ResultStatus status, params string[] errorMessages)
+            : base(status, errorMessages)
         {
             Value = value;
         }

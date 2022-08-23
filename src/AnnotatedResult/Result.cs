@@ -6,22 +6,22 @@ namespace AnnotatedResult
 {
     public class Result
     {
-        private readonly List<string> _errors;
+        private readonly List<string> _errorMessages;
 
         internal Result(ResultStatus status)
         {
             Status = status;
         }
 
-        internal Result(ResultStatus status, IEnumerable<string> errors)
+        internal Result(ResultStatus status, params string[] errorMessages)
         {
             Status = status;
-            _errors = new List<string>(errors);
+            _errorMessages = new List<string>(errorMessages);
         }
 
         public ResultStatus Status { get; protected set; }
         public bool IsSuccess => Status == ResultStatus.Ok;
-        public ReadOnlyCollection<string> Errors => _errors.AsReadOnly();
+        public ReadOnlyCollection<string> Errors => _errorMessages.AsReadOnly();
 
         public static Result Ok()
         {
@@ -33,19 +33,19 @@ namespace AnnotatedResult
             return new Result<T>(value, ResultStatus.Ok);
         }
 
-        public static Result Error(IEnumerable<string> errors)
+        public static Result Error(params string[] errorMessages)
         {
-            return new Result(ResultStatus.Error, errors);
+            return new Result(ResultStatus.Error, errorMessages);
         }
 
-        public static Result Error<T>(IEnumerable<string> errors)
+        public static Result Error<T>(params string[] errorMessages)
         {
-            return new Result<T>(default, ResultStatus.Error, errors);
+            return new Result<T>(default, ResultStatus.Error, errorMessages);
         }
 
-        public static Result<T> Invalid<T>(IEnumerable<string> errors)
+        public static Result<T> Invalid<T>(params string[] errorMessages)
         {
-            return new Result<T>(default, ResultStatus.Invalid, errors);
+            return new Result<T>(default, ResultStatus.Invalid, errorMessages);
         }
 
         public static Result<T> Validate<T>(T value)
@@ -57,7 +57,7 @@ namespace AnnotatedResult
 
             var errors = new List<string>();
             results.ForEach(error => errors.Add(error.ErrorMessage));
-            return Result.Invalid<T>(errors);
+            return Result.Invalid<T>(errors.ToArray());
         }
     }
 }
