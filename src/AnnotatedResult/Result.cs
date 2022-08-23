@@ -38,6 +38,11 @@ namespace AnnotatedResult
             return new Result(ResultStatus.Error, errors);
         }
 
+        public static Result Error<T>(IEnumerable<string> errors)
+        {
+            return new Result<T>(default, ResultStatus.Error, errors);
+        }
+
         public static Result<T> Invalid<T>(IEnumerable<string> errors)
         {
             return new Result<T>(default, ResultStatus.Invalid, errors);
