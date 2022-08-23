@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AnnotatedResult.Common
 {
-    public class ResultValidator
+    public class ResultValidator : IResultValidator
     {
         public bool TryValidate<T>(T instance, out List<ValidationResult> results)
         {
