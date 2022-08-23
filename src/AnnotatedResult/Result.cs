@@ -38,7 +38,7 @@ namespace AnnotatedResult
             return new Result(ResultStatus.Error, errorMessages);
         }
 
-        public static Result Error<T>(params string[] errorMessages)
+        public static Result<T> Error<T>(params string[] errorMessages)
         {
             return new Result<T>(default, ResultStatus.Error, errorMessages);
         }
@@ -60,22 +60,22 @@ namespace AnnotatedResult
             return Result.Invalid<T>(errors.ToArray());
         }
 
-        public static Result Unauthorized<T>()
+        public static Result<T> Unauthorized<T>()
         {
             return new Result<T>(default, ResultStatus.Unauthorized);
         }
 
-        public static Result Forbidden<T>()
+        public static Result<T> Forbidden<T>()
         {
             return new Result<T>(default, ResultStatus.Forbidden);
         }
 
-        public static Result Conflict<T>()
+        public static Result<T> Conflict<T>()
         {
             return new Result<T>(default, ResultStatus.Conflict);
         }
 
-        public static Result NotFound<T>()
+        public static Result<T> NotFound<T>()
         {
             return new Result<T>(default, ResultStatus.NotFound);
         }
