@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AnnotatedResult.Common;
 
 namespace AnnotatedResult
@@ -21,5 +22,53 @@ namespace AnnotatedResult
 
         public T Value { get; private set; }
         public Type ValueType => Value.GetType();
+
+        public static Result<T> Validate(T value)
+        {
+            bool isValid = ResultValidator.TryValidate(value, out var results);
+            if(isValid)
+            {
+                return Result<T>.Ok(value);
+            }
+
+            var errors = new List<string>();
+            results.ForEach(error => errors.Add(error.ErrorMessage));
+            return Result<T>.Invalid(errors.ToArray());
+        }
+
+        public static Result<T> Ok(T value)
+        {
+            return new Result<T>(value, ResultStatus.Ok);
+        }
+
+        public static new Result<T> Error(params string[] errorMessages)
+        {
+            return new Result<T>(default, ResultStatus.Error, errorMessages);
+        }
+
+        public static new Result<T> Invalid(params string[] errorMessages)
+        {
+            return new Result<T>(default, ResultStatus.Invalid, errorMessages);
+        }
+
+        public static new Result<T> Unauthorized()
+        {
+            return new Result<T>(default, ResultStatus.Unauthorized);
+        }
+
+        public static new Result<T> Forbidden()
+        {
+            return new Result<T>(default, ResultStatus.Forbidden);
+        }
+
+        public static new Result<T> Conflict()
+        {
+            return new Result<T>(default, ResultStatus.Conflict);
+        }
+
+        public static new Result<T> NotFound()
+        {
+            return new Result<T>(default, ResultStatus.NotFound);
+        }
     }
 }

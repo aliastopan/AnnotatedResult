@@ -28,56 +28,34 @@ namespace AnnotatedResult
             return new Result(ResultStatus.Ok);
         }
 
-        public static Result<T> Ok<T>(T value)
-        {
-            return new Result<T>(value, ResultStatus.Ok);
-        }
-
         public static Result Error(params string[] errorMessages)
         {
             return new Result(ResultStatus.Error, errorMessages);
         }
 
-        public static Result<T> Error<T>(params string[] errorMessages)
+        public static Result Invalid(params string[] errorMessages)
         {
-            return new Result<T>(default, ResultStatus.Error, errorMessages);
+            return new Result(ResultStatus.Invalid, errorMessages);
         }
 
-        public static Result<T> Invalid<T>(params string[] errorMessages)
+        public static Result Unauthorized()
         {
-            return new Result<T>(default, ResultStatus.Invalid, errorMessages);
+            return new Result(ResultStatus.Unauthorized);
         }
 
-        public static Result<T> Validate<T>(T value)
+        public static Result Forbidden()
         {
-            bool isValid = ResultValidator.TryValidate(value, out var results);
-
-            if(isValid)
-                return Result.Ok(value);
-
-            var errors = new List<string>();
-            results.ForEach(error => errors.Add(error.ErrorMessage));
-            return Result.Invalid<T>(errors.ToArray());
+            return new Result(ResultStatus.Forbidden);
         }
 
-        public static Result<T> Unauthorized<T>()
+        public static Result Conflict()
         {
-            return new Result<T>(default, ResultStatus.Unauthorized);
+            return new Result(ResultStatus.Conflict);
         }
 
-        public static Result<T> Forbidden<T>()
+        public static Result NotFound()
         {
-            return new Result<T>(default, ResultStatus.Forbidden);
-        }
-
-        public static Result<T> Conflict<T>()
-        {
-            return new Result<T>(default, ResultStatus.Conflict);
-        }
-
-        public static Result<T> NotFound<T>()
-        {
-            return new Result<T>(default, ResultStatus.NotFound);
+            return new Result(ResultStatus.NotFound);
         }
     }
 }
