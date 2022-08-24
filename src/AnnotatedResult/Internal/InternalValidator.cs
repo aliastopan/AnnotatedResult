@@ -5,12 +5,12 @@ using System.Reflection;
 
 namespace AnnotatedResult.Internal
 {
-    internal sealed class ResultValidator : IResultValidator
+    internal sealed class InternalValidator : IResultValidator
     {
         private readonly List<ValidationResult> _results;
         private readonly List<Error> _errors;
 
-        public ResultValidator()
+        internal InternalValidator()
         {
             _results = new List<ValidationResult>();
             _errors = new List<Error>();

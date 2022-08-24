@@ -36,7 +36,7 @@ namespace AnnotatedResult
 
         public static Result<T> Validate(T value)
         {
-            return Result<T>.Validate(value, new ResultValidator());
+            return Result<T>.Validate(value, new InternalValidator());
         }
 
         public static Result<T> Ok(T value)
