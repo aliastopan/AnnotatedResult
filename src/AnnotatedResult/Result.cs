@@ -29,6 +29,11 @@ namespace AnnotatedResult
             return new Result(ResultStatus.Ok);
         }
 
+        public static Result Error(int errorCode, params Error[] errors)
+        {
+            return new Result((ResultStatus)errorCode, errors);
+        }
+
         public static Result Error(params Error[] errors)
         {
             return new Result(ResultStatus.Error, errors);
