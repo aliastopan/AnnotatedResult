@@ -56,22 +56,22 @@ namespace AnnotatedResult
 
         public static new Result<T> Unauthorized()
         {
-            return new Result<T>(default, ResultStatus.Unauthorized);
+            return new Result<T>(default, ResultStatus.Unauthorized, ErrorResult.Unauthorized);
         }
 
         public static new Result<T> Forbidden()
         {
-            return new Result<T>(default, ResultStatus.Forbidden);
+            return new Result<T>(default, ResultStatus.Forbidden, ErrorResult.Forbidden);
         }
 
         public static new Result<T> Conflict()
         {
-            return new Result<T>(default, ResultStatus.Conflict);
+            return new Result<T>(default, ResultStatus.Conflict, ErrorResult.Conflict);
         }
 
         public static new Result<T> NotFound()
         {
-            return new Result<T>(default, ResultStatus.NotFound);
+            return new Result<T>(default, ResultStatus.NotFound, ErrorResult.NotFound);
         }
     }
 }

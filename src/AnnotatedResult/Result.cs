@@ -41,22 +41,22 @@ namespace AnnotatedResult
 
         public static Result Unauthorized()
         {
-            return new Result(ResultStatus.Unauthorized);
+            return new Result(ResultStatus.Unauthorized, ErrorResult.Unauthorized);
         }
 
         public static Result Forbidden()
         {
-            return new Result(ResultStatus.Forbidden);
+            return new Result(ResultStatus.Forbidden, ErrorResult.Forbidden);
         }
 
         public static Result Conflict()
         {
-            return new Result(ResultStatus.Conflict);
+            return new Result(ResultStatus.Conflict, ErrorResult.Conflict);
         }
 
         public static Result NotFound()
         {
-            return new Result(ResultStatus.NotFound);
+            return new Result(ResultStatus.NotFound, ErrorResult.NotFound);
         }
     }
 }
