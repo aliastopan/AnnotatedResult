@@ -6,36 +6,37 @@ namespace AnnotatedResult
 {
     public class Result
     {
-        private readonly List<string> _errorMessages;
+        private readonly List<Error> _errors;
 
         internal Result(ResultStatus status)
         {
             Status = status;
+            _errors = new List<Error>();
         }
 
-        internal Result(ResultStatus status, params string[] errorMessages)
+        internal Result(ResultStatus status, params Error[] errors)
         {
             Status = status;
-            _errorMessages = new List<string>(errorMessages);
+            _errors = new List<Error>(errors);
         }
 
         public ResultStatus Status { get; protected set; }
         public bool IsSuccess => Status == ResultStatus.Ok;
-        public ReadOnlyCollection<string> Errors => _errorMessages.AsReadOnly();
+        public ReadOnlyCollection<Error> Errors => _errors.AsReadOnly();
 
         public static Result Ok()
         {
             return new Result(ResultStatus.Ok);
         }
 
-        public static Result Error(params string[] errorMessages)
+        public static Result Error(params Error[] errors)
         {
-            return new Result(ResultStatus.Error, errorMessages);
+            return new Result(ResultStatus.Error, errors);
         }
 
-        public static Result Invalid(params string[] errorMessages)
+        public static Result Invalid(params Error[] errors)
         {
-            return new Result(ResultStatus.Invalid, errorMessages);
+            return new Result(ResultStatus.Invalid, errors);
         }
 
         public static Result Unauthorized()

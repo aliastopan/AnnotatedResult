@@ -12,8 +12,8 @@ namespace AnnotatedResult
             Value = value;
         }
 
-        internal protected Result(T value, ResultStatus status, params string[] errorMessages)
-            : base(status, errorMessages)
+        internal protected Result(T value, ResultStatus status, Error[] errors)
+            : base(status, errors)
         {
             Value = value;
         }
@@ -25,13 +25,13 @@ namespace AnnotatedResult
 
         public static Result<T> Validate(T value, IResultValidator validator)
         {
-            var isValid = validator.TryValidate(value, out var errorMessages);
+            var isValid = validator.TryValidate(value, out List<Error> errors);
             if(isValid)
             {
                 return Result<T>.Ok(value);
             }
 
-            return Result<T>.Invalid(errorMessages.ToArray());
+            return Result<T>.Invalid(errors.ToArray());
         }
 
         public static Result<T> Validate(T value)
@@ -44,14 +44,14 @@ namespace AnnotatedResult
             return new Result<T>(value, ResultStatus.Ok);
         }
 
-        public static new Result<T> Error(params string[] errorMessages)
+        public static new Result<T> Error(Error[] errors)
         {
-            return new Result<T>(default, ResultStatus.Error, errorMessages);
+            return new Result<T>(default, ResultStatus.Error, errors);
         }
 
-        public static new Result<T> Invalid(params string[] errorMessages)
+        public static new Result<T> Invalid(Error[] errors)
         {
-            return new Result<T>(default, ResultStatus.Invalid, errorMessages);
+            return new Result<T>(default, ResultStatus.Invalid, errors);
         }
 
         public static new Result<T> Unauthorized()
