@@ -12,7 +12,7 @@ namespace AnnotatedResult
             Value = value;
         }
 
-        internal protected Result(T value, ResultStatus status, Error[] errors)
+        internal protected Result(T value, ResultStatus status, params Error[] errors)
             : base(status, errors)
         {
             Value = value;
