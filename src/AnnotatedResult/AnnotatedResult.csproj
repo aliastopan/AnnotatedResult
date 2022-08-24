@@ -1,6 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>AnnotatedResult</RootNamespace>
+    <AssemblyName>AnnotatedResult</AssemblyName>
+    <PackageId>AnnotatedResult</PackageId>
+    <Version>1.0.0-preview.1</Version>
+    <Authors>Taufan Augusta</Authors>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>result, return, type, error, validation</PackageTags>
+    <PackageProjectUrl>https://github.com/einharan/AnnotatedResult/</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryURL>https://github.com/einharan/AnnotatedResult/</RepositoryURL>
+
+    <!--SourceLink-->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
