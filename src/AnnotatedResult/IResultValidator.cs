@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AnnotatedResult.Common
+namespace AnnotatedResult
 {
     public interface IResultValidator
     {

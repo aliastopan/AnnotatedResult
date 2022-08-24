@@ -1,4 +1,4 @@
-namespace AnnotatedResult.Common
+namespace AnnotatedResult.Internal
 {
     internal static class ErrorMessage
     {

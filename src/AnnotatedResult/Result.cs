@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using AnnotatedResult.Common;
+using AnnotatedResult.Internal;
 
 namespace AnnotatedResult
 {

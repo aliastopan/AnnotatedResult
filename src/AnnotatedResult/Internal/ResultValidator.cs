@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace AnnotatedResult.Common
+namespace AnnotatedResult.Internal
 {
-    public class ResultValidator : IResultValidator
+    internal sealed class ResultValidator : IResultValidator
     {
         private readonly List<ValidationResult> _results;
         private readonly List<Error> _errors;
