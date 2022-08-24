@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using AnnotatedResult.SampleTests.Models;
 
@@ -5,6 +6,16 @@ namespace AnnotatedResult.SampleTests.Samples;
 
 public static class CustomValidation
 {
+    internal static bool IsRequired(PropertyInfo property)
+    {
+        return Attribute.IsDefined(property, typeof(RequiredAttribute));
+    }
+
+    internal static bool IsOptional(PropertyInfo property)
+    {
+        return Attribute.IsDefined(property, typeof(ValidationAttribute)) && !IsRequired(property);
+    }
+
     public static void Run()
     {
         var instance = new Dto
@@ -17,8 +28,7 @@ public static class CustomValidation
         var props = instance.GetType().GetProperties();
         foreach (var prop in props)
         {
-            var isRequired = Attribute.IsDefined(prop, typeof(RequiredAttribute));
-            if(!isRequired)
+            if(!IsOptional(prop))
             {
                 continue;
             }
