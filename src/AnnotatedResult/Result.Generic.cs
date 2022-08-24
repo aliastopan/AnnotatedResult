@@ -44,12 +44,12 @@ namespace AnnotatedResult
             return new Result<T>(value, ResultStatus.Ok);
         }
 
-        public static new Result<T> Error(Error[] errors)
+        public static new Result<T> Error(params Error[] errors)
         {
             return new Result<T>(default, ResultStatus.Error, errors);
         }
 
-        public static new Result<T> Invalid(Error[] errors)
+        public static new Result<T> Invalid(params Error[] errors)
         {
             return new Result<T>(default, ResultStatus.Invalid, errors);
         }
