@@ -10,5 +10,6 @@ public static class Sampling
         // CustomValidation.Run();
         // ResultValidation.Run();
         Result400.Run();
+        CustomError.Run();
     }
 }
