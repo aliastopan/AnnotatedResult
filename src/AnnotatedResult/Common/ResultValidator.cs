@@ -33,7 +33,7 @@ namespace AnnotatedResult.Common
         {
             if(IsRequired(property))
             {
-                Validate(instance, property);
+                Validate(instance, property, ErrorSeverity.Error);
             }
         }
 
@@ -41,11 +41,11 @@ namespace AnnotatedResult.Common
         {
             if(IsOptional(property))
             {
-                Validate(instance, property);
+                Validate(instance, property, ErrorSeverity.Warning);
             }
         }
 
-        private void Validate<T>(T instance, PropertyInfo property)
+        private void Validate<T>(T instance, PropertyInfo property, ErrorSeverity severity)
         {
             var context = new ValidationContext(instance, null, null)
             {
@@ -56,7 +56,7 @@ namespace AnnotatedResult.Common
             if (!isValid)
             {
                 var validation = _results[_results.Count - 1];
-                var error = new Error(validation.ErrorMessage);
+                var error = new Error(validation.ErrorMessage, severity);
                 _errors.Add(error);
             }
         }
