@@ -6,13 +6,11 @@ public static class ResultValidation
 {
     public static void Run()
     {
-        Serilog.Log.Information("Starting...");
-
         var result = Result<Request>.Validate(new Request()
         {
             Username = "John Wick",
             Email = "john.wick@continental",
-            Password = "FortisFortunaAdiuvat"
+            // Password = "FortisFortunaAdiuvat"
         });
 
         if(result.IsSuccess)
