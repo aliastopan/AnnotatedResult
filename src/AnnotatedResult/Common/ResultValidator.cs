@@ -18,37 +18,47 @@ namespace AnnotatedResult.Common
 
         public bool TryValidate<T>(T instance, out List<Error> errors)
         {
-            errors = _errors;
             var properties = instance.GetType().GetProperties();
-
             foreach(var property in properties)
             {
-                ValidateProperty(IsRequired(property), instance, property);
-                ValidateProperty(IsOptional(property), instance, property);
+                ValidateRequired(instance, property);
+                ValidateOptional(instance, property);
             }
 
-            foreach(var validation in _results)
-            {
-                var error = new Error(validation.ErrorMessage);
-                errors.Add(error);
-            }
-
+            errors = _errors;
             return _results.Count == 0;
         }
 
-        internal void ValidateProperty<T>(bool hasAttribute, T instance, PropertyInfo property)
+        private void ValidateRequired<T>(T instance, PropertyInfo property)
         {
-            if(!hasAttribute)
+            if(IsRequired(property))
             {
-                return;
+                Validate(instance, property);
             }
+        }
 
+        private void ValidateOptional<T>(T instance, PropertyInfo property)
+        {
+            if(IsOptional(property))
+            {
+                Validate(instance, property);
+            }
+        }
+
+        private void Validate<T>(T instance, PropertyInfo property)
+        {
             var context = new ValidationContext(instance, null, null)
             {
                 MemberName = property.Name
             };
             var value = instance.GetType().GetProperty(property.Name)?.GetValue(instance);
-            Validator.TryValidateProperty(value, context, _results);
+            var isValid = Validator.TryValidateProperty(value, context, _results);
+            if (!isValid)
+            {
+                var validation = _results[_results.Count - 1];
+                var error = new Error(validation.ErrorMessage);
+                _errors.Add(error);
+            }
         }
 
         private static bool IsRequired(PropertyInfo property)
