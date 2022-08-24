@@ -4,10 +4,13 @@ namespace AnnotatedResult.SampleTests.Models;
 
 public class Request
 {
-    [Required(ErrorMessage = "Username cannot be empty.")]
+    [Required]
     public string Username { get; init; } = null!;
 
-    [Required]
+    public string FirstName { get; init; } = null!;
+    public string LastName { get; init; } = null!;
+
+    [EmailAddress]
     public string Email { get; init; } = null!;
 
     [Required]

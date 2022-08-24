@@ -10,14 +10,18 @@ public static class ResultValidation
         {
             Username = "John Wick",
             Email = "john.wick@continental",
-            // Password = "FortisFortunaAdiuvat"
+            Password = "FortisFortunaAdiuvat"
         });
 
+        Serilog.Log.Information("Status: {0}", result.Status);
         if(result.IsSuccess)
         {
             Request request = result;
-            Serilog.Log.Information("Status: {0}", result.Status);
-            Serilog.Log.Information("Result: {0}", request.Email);
+            Serilog.Log.Information("Username: {0}", request.Username);
+            Serilog.Log.Information("FirstName: {0}", request.FirstName);
+            Serilog.Log.Information("LastName: {0}", request.LastName);
+            Serilog.Log.Information("Email: {0}", request.Email);
+            Serilog.Log.Information("Password: {0}", request.Password);
             return;
         }
 
