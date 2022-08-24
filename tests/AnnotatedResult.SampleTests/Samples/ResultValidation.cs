@@ -21,9 +21,9 @@ public static class ResultValidation
             return;
         }
 
-        foreach(var errorMessage in result.Errors)
+        foreach(var error in result.Errors)
         {
-            Serilog.Log.Information(errorMessage);
+            Serilog.Log.Information(error.Message);
         }
     }
 }
