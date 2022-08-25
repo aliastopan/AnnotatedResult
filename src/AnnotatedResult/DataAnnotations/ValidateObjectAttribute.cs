@@ -5,7 +5,7 @@ using AnnotatedResult.Internal;
 
 namespace AnnotatedResult.DataAnnotations
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
     public class ValidateObjectAttribute : ValidationAttribute
     {
         public bool ErrorHeader { get; set; } = true;
