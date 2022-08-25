@@ -62,11 +62,14 @@ namespace AnnotatedResult.Internal
             };
             var value = instance.GetType().GetProperty(property.Name)?.GetValue(instance);
             var isValid = Validator.TryValidateProperty(value, context, _results);
-            if(isValid)
+            if(!isValid)
             {
-                return;
+                SummarizeErrors(property, severity);
             }
+        }
 
+        private void SummarizeErrors(PropertyInfo property, ErrorSeverity severity)
+        {
             if(!property.HasCompositeValidation())
             {
                 _errors.Add(new Error(ValidationResult.ErrorMessage, severity));
@@ -74,7 +77,7 @@ namespace AnnotatedResult.Internal
             }
 
             var errorStrings = ValidationResult.ErrorMessage.Split('|');
-            foreach (var error in errorStrings)
+            foreach(var error in errorStrings)
             {
                 var errorString = error.Split('`');
                 var errorSeverity = (ErrorSeverity)Enum.Parse(typeof(ErrorSeverity), errorString[0]);
