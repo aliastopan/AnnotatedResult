@@ -7,12 +7,6 @@ namespace AnnotatedResult.Internal
     {
         private readonly List<ValidationResult> _results;
 
-        internal CompositeValidationResult(string errorMessage)
-            : base(errorMessage)
-        {
-            _results = new List<ValidationResult>();
-        }
-
         internal CompositeValidationResult(string errorMessage, IEnumerable<string> memberNames)
             : base(errorMessage, memberNames)
         {
