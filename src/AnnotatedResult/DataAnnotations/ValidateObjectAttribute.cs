@@ -8,6 +8,8 @@ namespace AnnotatedResult.DataAnnotations
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class ValidateObjectAttribute : ValidationAttribute
     {
+        public bool ErrorHeader { get; set; } = true;
+
         protected override ValidationResult IsValid(object value, ValidationContext context)
         {
             var invalids = TryValidate(value, out var errors);
@@ -16,10 +18,7 @@ namespace AnnotatedResult.DataAnnotations
                 return ValidationResult.Success;
             }
 
-            var errorStrings = new List<string>
-            {
-                ErrorHeader(value)
-            };
+            var errorStrings = ErrorStrings(value);
             foreach(var error in errors)
             {
                 errorStrings.Add(string.Format("{0}`{1}", error.Severity, error.Message));
@@ -41,7 +40,20 @@ namespace AnnotatedResult.DataAnnotations
             return results;
         }
 
-        private string ErrorHeader(object value)
+        private List<string> ErrorStrings(object value)
+        {
+            if(!ErrorHeader)
+            {
+                return new List<string>();
+            }
+
+            return new List<string>
+            {
+                Header(value)
+            };
+        }
+
+        private string Header(object value)
         {
             var property = GetParentProperty(value);
             var errorMessage = this.ErrorMessage ?? string.Format("Validation for {0} failed.", property);
@@ -49,7 +61,7 @@ namespace AnnotatedResult.DataAnnotations
             return error;
         }
 
-        private static string GetParentProperty(object value)
+        private string GetParentProperty(object value)
         {
             var results = new List<ValidationResult>();
             var context = new ValidationContext(value, null, null);
