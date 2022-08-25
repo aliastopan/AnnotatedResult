@@ -21,11 +21,11 @@ namespace AnnotatedResult.DataAnnotations
             var errorStrings = ErrorStrings(value);
             foreach(var error in errors)
             {
-                errorStrings.Add(string.Format("{0}`{1}", error.Severity, error.Message));
+                errorStrings.Add("{0}`{1}".Format(error.Severity, error.Message));
             }
 
             var result = new CompositeValidationResult(
-                string.Join("|", errorStrings),
+                errorStrings.Join(separator: "|"),
                 invalids[0].MemberNames);
 
             invalids.ForEach(invalid => result.Add(invalid));
@@ -56,8 +56,8 @@ namespace AnnotatedResult.DataAnnotations
         private string Header(object value)
         {
             var property = GetParentProperty(value);
-            var errorMessage = this.ErrorMessage ?? string.Format(Internal.ErrorMessage.Header, property);
-            var error = string.Format("{0}`{1}", ErrorSeverity.Error, errorMessage);
+            var errorMessage = this.ErrorMessage ?? Internal.ErrorMessage.Header.Format(property);
+            var error = "{0}`{1}".Format(ErrorSeverity.Error, errorMessage);
             return error;
         }
 
