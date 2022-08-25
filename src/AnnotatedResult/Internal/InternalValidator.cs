@@ -29,6 +29,13 @@ namespace AnnotatedResult.Internal
             return _results.Count == 0;
         }
 
+        internal List<ValidationResult> Validate<T>(T instance, out List<Error> errors)
+        {
+            TryValidate(instance, out _);
+            errors = _errors;
+            return _results;
+        }
+
         private void ValidateRequired<T>(T instance, PropertyInfo property)
         {
             if(IsRequired(property))

@@ -10,26 +10,31 @@ namespace AnnotatedResult.DataAnnotations
     {
         protected override ValidationResult IsValid(object value, ValidationContext context)
         {
-            var results = Validate(value, out var displayName);
+            var results = TryValidate(value, out var errorResults);
             if(results.Count == 0)
             {
                 return ValidationResult.Success;
             }
 
-            var validationResult = new CompositeValidationResult(
-                string.Format("Validation for {0} failed.",
-                displayName));
+            var errors = new List<string>();
+            foreach(var err in errorResults)
+            {
+                errors.Add(string.Format("{0}`{1}", err.Severity, err.Message));
+            }
 
-            results.ForEach(validationResult.Add);
+            var validationResult = new CompositeValidationResult(
+                string.Join("|", errors),
+                results[0].MemberNames);
+
+            results.ForEach(result => validationResult.Add(result));
             return validationResult;
         }
 
-        private static List<ValidationResult> Validate(object value, out string displayName)
+        private static List<ValidationResult> TryValidate(object value, out List<Error> errors)
         {
-            var results = new List<ValidationResult>();
-            var context = new ValidationContext(value, null, null);
-            Validator.TryValidateObject(value, context, results, true);
-            displayName = context.DisplayName;
+            var validator = new InternalValidator();
+            var results = validator.Validate(value, out var errorList);
+            errors = errorList;
             return results;
         }
     }
