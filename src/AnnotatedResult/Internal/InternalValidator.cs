@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using AnnotatedResult.DataAnnotations;
 
 namespace AnnotatedResult.Internal
 {
@@ -39,7 +38,7 @@ namespace AnnotatedResult.Internal
 
         private void ValidateRequired<T>(T instance, PropertyInfo property)
         {
-            if(IsRequired(property))
+            if(property.IsRequired())
             {
                 ValidateProperty(instance, property, ErrorSeverity.Error);
             }
@@ -47,7 +46,7 @@ namespace AnnotatedResult.Internal
 
         private void ValidateOptional<T>(T instance, PropertyInfo property)
         {
-            if(IsOptional(property))
+            if(property.IsOptional())
             {
                 ValidateProperty(instance, property, ErrorSeverity.Warning);
             }
@@ -67,7 +66,7 @@ namespace AnnotatedResult.Internal
             }
 
             var validation = _results[_results.Count - 1];
-            if(!IsComposite(property))
+            if(!property.HasCompositeValidation())
             {
                 _errors.Add(new Error(validation.ErrorMessage, severity));
                 return;
@@ -81,21 +80,6 @@ namespace AnnotatedResult.Internal
                 var errorMessage = errorString[1];
                 _errors.Add(new Error(errorMessage, errorSeverity));
             }
-        }
-
-        private static bool IsRequired(PropertyInfo property)
-        {
-            return Attribute.IsDefined(property, typeof(RequiredAttribute));
-        }
-
-        private static bool IsOptional(PropertyInfo property)
-        {
-            return Attribute.IsDefined(property, typeof(ValidationAttribute)) && !IsRequired(property);
-        }
-
-        private static bool IsComposite(PropertyInfo property)
-        {
-            return Attribute.IsDefined(property, typeof(ValidateObjectAttribute));
         }
     }
 }
