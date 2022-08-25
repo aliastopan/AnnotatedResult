@@ -16,6 +16,8 @@ namespace AnnotatedResult.Internal
             _errors = new List<Error>();
         }
 
+        internal ValidationResult ValidationResult => _results[_results.Count - 1];
+
         public bool TryValidate<T>(T instance, out List<Error> errors)
         {
             var properties = instance.GetType().GetProperties();
@@ -65,14 +67,13 @@ namespace AnnotatedResult.Internal
                 return;
             }
 
-            var validation = _results[_results.Count - 1];
             if(!property.HasCompositeValidation())
             {
-                _errors.Add(new Error(validation.ErrorMessage, severity));
+                _errors.Add(new Error(ValidationResult.ErrorMessage, severity));
                 return;
             }
 
-            var errorStrings = validation.ErrorMessage.Split('|');
+            var errorStrings = ValidationResult.ErrorMessage.Split('|');
             foreach (var error in errorStrings)
             {
                 var errorString = error.Split('`');
