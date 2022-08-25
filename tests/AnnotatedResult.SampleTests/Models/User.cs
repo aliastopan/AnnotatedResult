@@ -18,7 +18,7 @@ public class User
 
 public class Profile
 {
-    [Required]
+    [Required(ErrorMessage = "|Required`")]
     public string FirstName { get; init; } = null!;
 
     [Required]
