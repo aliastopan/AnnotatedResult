@@ -41,11 +41,13 @@ namespace AnnotatedResult.DataAnnotations
             return results;
         }
 
-        private static string ErrorHeader(object value)
+        private string ErrorHeader(object value)
         {
             var property = GetParentProperty(value);
             var severity = "Error";
-            var error = string.Format("{0}`Validation for {1} failed.", severity, property);
+            var defaultMessage = string.Format("Validation for {0} failed.", property);
+            var errorMessage = this.ErrorMessage ?? defaultMessage;
+            var error = string.Format("{0}`{1}", severity, errorMessage);
             return error;
         }
 
