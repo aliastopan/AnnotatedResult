@@ -21,7 +21,7 @@ namespace AnnotatedResult.DataAnnotations
             var errorStrings = ErrorStrings(value);
             foreach(var error in errors)
             {
-                errorStrings.Add("{0}`{1}".Format(error.Severity, error.Message));
+                errorStrings.Add("{0}`{1}".Format(error.Severity, error.Message.Sanitize()));
             }
 
             var result = new CompositeValidationResult(

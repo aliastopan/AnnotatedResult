@@ -1,9 +1,15 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace AnnotatedResult.Internal
 {
     internal static class StringExtensions
     {
+        internal static string Sanitize(this string input)
+        {
+            return Regex.Replace(input, "[`|]", "");
+        }
+
         internal static string Format(this string format, params object[] args)
         {
             return string.Format(format, args);
