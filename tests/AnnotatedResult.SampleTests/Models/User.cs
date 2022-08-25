@@ -11,15 +11,21 @@ public class User
     [EmailAddress]
     public string Email { get; init; } = null!;
 
-    [ValidateObject]
+    [Required]
+    [ValidateObject(ErrorMessage = "Missing Profile")]
     public Profile Profile { get; init; } = new Profile();
 }
 
 public class Profile
 {
-    [Required] public string FirstName { get; init; } = null!;
-    [Required] public string LastName { get; init; } = null!;
-    [ValidateObject]
+    [Required]
+    public string FirstName { get; init; } = null!;
+
+    [Required]
+    public string LastName { get; init; } = null!;
+
+    [Required]
+    [ValidateObject(ErrorMessage = "Missing address.")]
     public Address Address { get; set; } = new Address();
 }
 

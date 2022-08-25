@@ -12,8 +12,8 @@ public static class CompositeValidation
             Email = "john.wick@continental",
             Profile = new Profile
             {
-                FirstName = "Jardani",
-                LastName = "Jovonovich",
+                // FirstName = "Jardani",
+                // LastName = "Jovonovich",
                 Address = new Address
                 {
                     ZipCode = "10001",
@@ -22,9 +22,9 @@ public static class CompositeValidation
             }
         });
 
-        Serilog.Log.Information("Status: {0}", result.Status);
         if(result.IsSuccess)
         {
+            Serilog.Log.Information("Status: {0}", result.Status);
             User request = result;
             Serilog.Log.Information("Username: {0}", request.Username);
             Serilog.Log.Information("Email: {0}", request.Email);
