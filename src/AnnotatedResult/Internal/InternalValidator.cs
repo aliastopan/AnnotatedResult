@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using AnnotatedResult.DataAnnotations;
 
 namespace AnnotatedResult.Internal
 {
@@ -60,11 +61,25 @@ namespace AnnotatedResult.Internal
             };
             var value = instance.GetType().GetProperty(property.Name)?.GetValue(instance);
             var isValid = Validator.TryValidateProperty(value, context, _results);
-            if (!isValid)
+            if(isValid)
             {
-                var validation = _results[_results.Count - 1];
-                var error = new Error(validation.ErrorMessage, severity);
-                _errors.Add(error);
+                return;
+            }
+
+            var validation = _results[_results.Count - 1];
+            if(!IsComposite(property))
+            {
+                _errors.Add(new Error(validation.ErrorMessage, severity));
+                return;
+            }
+
+            var errorStrings = validation.ErrorMessage.Split('|');
+            foreach (var error in errorStrings)
+            {
+                var errorString = error.Split('`');
+                var errorSeverity = (ErrorSeverity)Enum.Parse(typeof(ErrorSeverity), errorString[0]);
+                var errorMessage = errorString[1];
+                _errors.Add(new Error(errorMessage, errorSeverity));
             }
         }
 
@@ -76,6 +91,11 @@ namespace AnnotatedResult.Internal
         private static bool IsOptional(PropertyInfo property)
         {
             return Attribute.IsDefined(property, typeof(ValidationAttribute)) && !IsRequired(property);
+        }
+
+        private static bool IsComposite(PropertyInfo property)
+        {
+            return Attribute.IsDefined(property, typeof(ValidateObjectAttribute));
         }
     }
 }
