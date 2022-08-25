@@ -44,10 +44,8 @@ namespace AnnotatedResult.DataAnnotations
         private string ErrorHeader(object value)
         {
             var property = GetParentProperty(value);
-            var severity = "Error";
-            var defaultMessage = string.Format("Validation for {0} failed.", property);
-            var errorMessage = this.ErrorMessage ?? defaultMessage;
-            var error = string.Format("{0}`{1}", severity, errorMessage);
+            var errorMessage = this.ErrorMessage ?? string.Format("Validation for {0} failed.", property);
+            var error = string.Format("{0}`{1}", ErrorSeverity.Error, errorMessage);
             return error;
         }
 
