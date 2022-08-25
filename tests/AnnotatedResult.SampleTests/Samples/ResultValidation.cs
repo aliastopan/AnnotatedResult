@@ -8,8 +8,8 @@ public static class ResultValidation
     {
         var result = Result<Request>.Validate(new Request()
         {
-            Username = "John Wick",
-            Email = "john.wick@continental",
+            Username = "JohnWick",
+            Email = "j.wick@continental",
             Password = "FortisFortunaAdiuvat"
         });
 
@@ -18,8 +18,6 @@ public static class ResultValidation
         {
             Request request = result;
             Serilog.Log.Information("Username: {0}", request.Username);
-            Serilog.Log.Information("FirstName: {0}", request.FirstName);
-            Serilog.Log.Information("LastName: {0}", request.LastName);
             Serilog.Log.Information("Email: {0}", request.Email);
             Serilog.Log.Information("Password: {0}", request.Password);
             return;
