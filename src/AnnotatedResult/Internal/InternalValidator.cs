@@ -33,7 +33,7 @@ namespace AnnotatedResult.Internal
         {
             if(IsRequired(property))
             {
-                Validate(instance, property, ErrorSeverity.Error);
+                ValidateProperty(instance, property, ErrorSeverity.Error);
             }
         }
 
@@ -41,11 +41,11 @@ namespace AnnotatedResult.Internal
         {
             if(IsOptional(property))
             {
-                Validate(instance, property, ErrorSeverity.Warning);
+                ValidateProperty(instance, property, ErrorSeverity.Warning);
             }
         }
 
-        private void Validate<T>(T instance, PropertyInfo property, ErrorSeverity severity)
+        private void ValidateProperty<T>(T instance, PropertyInfo property, ErrorSeverity severity)
         {
             var context = new ValidationContext(instance, null, null)
             {
