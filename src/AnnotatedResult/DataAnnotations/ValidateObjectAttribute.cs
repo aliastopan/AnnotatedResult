@@ -10,27 +10,27 @@ namespace AnnotatedResult.DataAnnotations
     {
         protected override ValidationResult IsValid(object value, ValidationContext context)
         {
-            var results = TryValidate(value, out var errorResults);
-            if(results.Count == 0)
+            var invalids = TryValidate(value, out var errors);
+            if(invalids.Count == 0)
             {
                 return ValidationResult.Success;
             }
 
-            var errors = new List<string>
+            var errorStrings = new List<string>
             {
                 ErrorHeader(value)
             };
-            foreach(var error in errorResults)
+            foreach(var error in errors)
             {
-                errors.Add(string.Format("{0}`{1}", error.Severity, error.Message));
+                errorStrings.Add(string.Format("{0}`{1}", error.Severity, error.Message));
             }
 
-            var validationResult = new CompositeValidationResult(
-                string.Join("|", errors),
-                results[0].MemberNames);
+            var result = new CompositeValidationResult(
+                string.Join("|", errorStrings),
+                invalids[0].MemberNames);
 
-            results.ForEach(result => validationResult.Add(result));
-            return validationResult;
+            invalids.ForEach(invalid => result.Add(invalid));
+            return result;
         }
 
         private static List<ValidationResult> TryValidate(object value, out List<Error> errors)
