@@ -56,7 +56,7 @@ namespace AnnotatedResult.DataAnnotations
         private string Header(object value)
         {
             var property = GetParentProperty(value);
-            var errorMessage = this.ErrorMessage ?? string.Format("Validation for {0} failed.", property);
+            var errorMessage = this.ErrorMessage ?? string.Format(Internal.ErrorMessage.Header, property);
             var error = string.Format("{0}`{1}", ErrorSeverity.Error, errorMessage);
             return error;
         }
