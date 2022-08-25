@@ -8,16 +8,16 @@ public static class CompositeValidation
     {
         var result = Result<User>.Validate(new User
         {
-            Username = "JohnWick",
-            Email = "john.wick@continental",
+            // Username = "JohnWick",
+            // Email = "john.wick@continental",
             Profile = new Profile
             {
                 // FirstName = "Jardani",
                 // LastName = "Jovonovich",
                 Address = new Address
                 {
-                    ZipCode = "10001",
-                    City = "New York"
+                    // ZipCode = "10001",
+                    // City = "New York"
                 }
             }
         });

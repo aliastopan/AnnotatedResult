@@ -12,7 +12,7 @@ public class User
     public string Email { get; init; } = null!;
 
     [Required]
-    [ValidateObject(ErrorMessage = "Missing Profile")]
+    [ValidateObject]
     public Profile Profile { get; init; } = new Profile();
 }
 
@@ -25,7 +25,7 @@ public class Profile
     public string LastName { get; init; } = null!;
 
     [Required]
-    [ValidateObject(ErrorMessage = "Missing address.")]
+    [ValidateObject]
     public Address Address { get; set; } = new Address();
 }
 
