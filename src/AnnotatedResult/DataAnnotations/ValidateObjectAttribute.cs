@@ -23,8 +23,7 @@ namespace AnnotatedResult.DataAnnotations
             }
 
             var result = new CompositeValidationResult(
-                errorStrings.Join(separator: "|"),
-                invalids[0].MemberNames);
+                errorStrings.Join(separator: "|"));
 
             invalids.ForEach(invalid => result.Add(invalid));
             return result;
