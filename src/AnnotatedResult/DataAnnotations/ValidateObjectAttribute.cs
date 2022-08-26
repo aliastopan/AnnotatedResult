@@ -35,8 +35,7 @@ namespace AnnotatedResult.DataAnnotations
         private static List<ValidationResult> TryValidate(object value, out List<Error> errors)
         {
             var validator = new InternalValidator();
-            var results = validator.Validate(value, out var errorList);
-            errors = errorList;
+            var results = validator.Validate(value, out errors);
             return results;
         }
 
