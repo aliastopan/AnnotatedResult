@@ -12,20 +12,20 @@ public class User
     public string Email { get; init; } = null!;
 
     [Required]
-    [ValidateObject(ErrorHeader = false)]
+    [ValidateObject(ErrorMessage = "Missing Profile")]
     public Profile Profile { get; init; } = new Profile();
 }
 
 public class Profile
 {
-    [Required(ErrorMessage = "|Required`")]
+    [Required]
     public string FirstName { get; init; } = null!;
 
     [Required]
     public string LastName { get; init; } = null!;
 
     [Required]
-    [ValidateObject(ErrorHeader = false)]
+    [ValidateObject(ErrorMessage = "")]
     public Address Address { get; set; } = new Address();
 }
 
