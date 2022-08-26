@@ -8,8 +8,6 @@ namespace AnnotatedResult.DataAnnotations
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
     public class ValidateObjectAttribute : ValidationAttribute
     {
-        public bool ErrorHeader { get; set; } = true;
-
         protected override ValidationResult IsValid(object value, ValidationContext context)
         {
             var invalids = TryValidate(value, out var errors);
@@ -18,7 +16,7 @@ namespace AnnotatedResult.DataAnnotations
                 return ValidationResult.Success;
             }
 
-            var errorStrings = ErrorStrings(value);
+            var errorStrings = ErrorStrings();
             foreach(var error in errors)
             {
                 errorStrings.Add("{0}`{1}".Format(error.Severity, error.Message.Sanitize()));
@@ -39,33 +37,24 @@ namespace AnnotatedResult.DataAnnotations
             return results;
         }
 
-        private List<string> ErrorStrings(object value)
+        private List<string> ErrorStrings()
         {
-            if(!ErrorHeader)
+            if(this.ErrorMessage.IsBlank())
             {
                 return new List<string>();
             }
 
             return new List<string>
             {
-                Header(value)
+                ErrorHeader()
             };
         }
 
-        private string Header(object value)
+        private string ErrorHeader()
         {
-            var property = GetParentProperty(value);
-            var errorMessage = this.ErrorMessage ?? Internal.ErrorMessage.Header.Format(property);
+            var errorMessage = this.ErrorMessage;
             var error = "{0}`{1}".Format(ErrorSeverity.Error, errorMessage);
             return error;
-        }
-
-        private string GetParentProperty(object value)
-        {
-            var results = new List<ValidationResult>();
-            var context = new ValidationContext(value, null, null);
-            Validator.TryValidateObject(value, context, results, true);
-            return context.DisplayName;
         }
     }
 }

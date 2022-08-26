@@ -5,6 +5,11 @@ namespace AnnotatedResult.Internal
 {
     internal static class StringExtensions
     {
+        internal static bool IsBlank(this string input)
+        {
+            return string.IsNullOrWhiteSpace(input);
+        }
+
         internal static string Sanitize(this string input)
         {
             return Regex.Replace(input, "[`|]", "");
