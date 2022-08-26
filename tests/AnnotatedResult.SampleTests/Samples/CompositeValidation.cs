@@ -6,7 +6,7 @@ public static class CompositeValidation
 {
     public static void Run()
     {
-        var result = Result<User>.Validate(new User
+        var user = new User
         {
             // Username = "JohnWick",
             // Email = "john.wick@continental",
@@ -20,19 +20,23 @@ public static class CompositeValidation
                     // City = "New York"
                 }
             }
-        });
+        };
 
-        if(result.IsSuccess)
+        Result<User> result;
+        var isValid = user.TryValidate(out var errors);
+        if(!isValid)
         {
-            Serilog.Log.Information("Status: {0}", result.Status);
-            User request = result;
-            Serilog.Log.Information("Username: {0}", request.Username);
-            Serilog.Log.Information("Email: {0}", request.Email);
-            Serilog.Log.Information("FirstName: {0}", request.Profile.FirstName);
-            Serilog.Log.Information("LastName: {0}", request.Profile.LastName);
+            result = Result<User>.Invalid(errors);
+            result.Log();
             return;
         }
 
-        result.Log();
+        result = Result<User>.Ok(user);
+        Serilog.Log.Information("Status: {0}", result.Status);
+        user = result;
+        Serilog.Log.Information("Username: {0}", user.Username);
+        Serilog.Log.Information("Email: {0}", user.Email);
+        Serilog.Log.Information("FirstName: {0}", user.Profile.FirstName);
+        Serilog.Log.Information("LastName: {0}", user.Profile.LastName);
     }
 }
