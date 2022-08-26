@@ -27,9 +27,8 @@ namespace AnnotatedResult.DataAnnotations
                 errorStrings.Add("{0}`{1}".Format(error.Severity, error.Message.Sanitize()));
             }
 
-            var result = new CompositeValidationResult(
-                errorStrings.Join(separator: "|"));
-
+            var errorMessage = errorStrings.Join(separator: "|");
+            var result = new CompositeValidationResult(errorMessage);
             invalids.ForEach(invalid => result.Add(invalid));
             return result;
         }
@@ -43,22 +42,12 @@ namespace AnnotatedResult.DataAnnotations
 
         private List<string> ErrorStrings()
         {
-            if(this.ErrorMessage.IsBlank())
-            {
-                return new List<string>();
-            }
-
-            return new List<string>
-            {
-                ErrorHeader()
-            };
-        }
-
-        private string ErrorHeader()
-        {
-            var errorMessage = this.ErrorMessage;
-            var error = "{0}`{1}".Format(ErrorSeverity.Error, errorMessage);
-            return error;
+            return this.ErrorMessage.IsBlank()
+                ? new List<string>()
+                : new List<string>
+                {
+                    "{0}`{1}".Format(ErrorSeverity.Error, this.ErrorMessage)
+                };
         }
     }
 }
