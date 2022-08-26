@@ -11,13 +11,18 @@ namespace AnnotatedResult.DataAnnotations
         protected override ValidationResult IsValid(object value, ValidationContext context)
         {
             var invalids = TryValidate(value, out var errors);
-            if(invalids.Count == 0)
+            if (invalids.Count == 0)
             {
                 return ValidationResult.Success;
             }
 
+            return ResultError(invalids, errors);
+        }
+
+        private ValidationResult ResultError(List<ValidationResult> invalids, List<Error> errors)
+        {
             var errorStrings = ErrorStrings();
-            foreach(var error in errors)
+            foreach (var error in errors)
             {
                 errorStrings.Add("{0}`{1}".Format(error.Severity, error.Message.Sanitize()));
             }
