@@ -10,7 +10,7 @@ namespace AnnotatedResult.DataAnnotations
     {
         protected override ValidationResult IsValid(object value, ValidationContext context)
         {
-            var invalids = TryValidate(value, out var errors);
+            var invalids = TryValidate(value, out List<Error> errors);
             if (invalids.Count == 0)
             {
                 return ValidationResult.Success;
