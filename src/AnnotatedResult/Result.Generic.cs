@@ -25,13 +25,13 @@ namespace AnnotatedResult
 
         public static Result<T> Validate(T value, IResultValidator validator)
         {
-            var isValid = validator.TryValidate(value, out List<Error> errors);
+            var isValid = validator.TryValidate(value, out Error[] errors);
             if(isValid)
             {
                 return Result<T>.Ok(value);
             }
 
-            return Result<T>.Invalid(errors.ToArray());
+            return Result<T>.Invalid(errors);
         }
 
         public static Result<T> Validate(T value)

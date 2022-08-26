@@ -18,7 +18,7 @@ namespace AnnotatedResult.Internal
 
         internal ValidationResult ValidationResult => _results[_results.Count - 1];
 
-        public bool TryValidate<T>(T instance, out List<Error> errors)
+        public bool TryValidate<T>(T instance, out Error[] errors)
         {
             var properties = instance.GetType().GetProperties();
             foreach(var property in properties)
@@ -27,7 +27,7 @@ namespace AnnotatedResult.Internal
                 ValidateOptional(instance, property);
             }
 
-            errors = _errors;
+            errors = _errors.ToArray();
             return _results.Count == 0;
         }
 
