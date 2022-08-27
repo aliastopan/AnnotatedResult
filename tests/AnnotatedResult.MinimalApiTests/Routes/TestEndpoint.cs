@@ -1,4 +1,6 @@
+using AnnotatedResult.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+
 namespace AnnotatedResult.MinimalApiTests.Routes;
 
 public class TestEndpoint : IRouteEndpoint
@@ -17,20 +19,7 @@ public class TestEndpoint : IRouteEndpoint
     internal IResult Register(Request request)
     {
         var result = Registration(request);
-        if(result.IsSuccess)
-        {
-            Response response = result;
-            return Results.Ok(response);
-        }
-        else
-        {
-            var detail = new ProblemDetails
-            {
-                Status = (int)result.Status,
-            };
-            detail.Extensions["errors"] = result.Errors;
-            return Results.Problem(detail);
-        }
+        return result.HttpResult();
     }
 
     internal static Result<Response> Registration(Request request)

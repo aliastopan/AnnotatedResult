@@ -8,6 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AnnotatedResult\AnnotatedResult.csproj" />
+    <ProjectReference Include="..\..\src\AnnotatedResult.AspNetCore\AnnotatedResult.AspNetCore.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
