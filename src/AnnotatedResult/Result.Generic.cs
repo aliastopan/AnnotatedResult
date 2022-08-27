@@ -58,24 +58,24 @@ namespace AnnotatedResult
             return new Result<T>(default, ResultStatus.Invalid, errors);
         }
 
-        public static new Result<T> Unauthorized()
+        public static new Result<T> Unauthorized(params Error[] errors)
         {
-            return new Result<T>(default, ResultStatus.Unauthorized, ErrorResult.Unauthorized);
+            return new Result<T>(default, ResultStatus.Unauthorized, ErrorResult.Unauthorized(errors));
         }
 
-        public static new Result<T> Forbidden()
+        public static new Result<T> Forbidden(params Error[] errors)
         {
-            return new Result<T>(default, ResultStatus.Forbidden, ErrorResult.Forbidden);
+            return new Result<T>(default, ResultStatus.Forbidden, ErrorResult.Forbidden(errors));
         }
 
-        public static new Result<T> Conflict()
+        public static new Result<T> Conflict(params Error[] errors)
         {
-            return new Result<T>(default, ResultStatus.Conflict, ErrorResult.Conflict);
+            return new Result<T>(default, ResultStatus.Conflict, ErrorResult.Conflict(errors));
         }
 
-        public static new Result<T> NotFound()
+        public static new Result<T> NotFound(params Error[] errors)
         {
-            return new Result<T>(default, ResultStatus.NotFound, ErrorResult.NotFound);
+            return new Result<T>(default, ResultStatus.NotFound, ErrorResult.NotFound(errors));
         }
     }
 }

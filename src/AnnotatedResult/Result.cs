@@ -44,24 +44,24 @@ namespace AnnotatedResult
             return new Result(ResultStatus.Invalid, errors);
         }
 
-        public static Result Unauthorized()
+        public static Result Unauthorized(params Error[] errors)
         {
-            return new Result(ResultStatus.Unauthorized, ErrorResult.Unauthorized);
+            return new Result(ResultStatus.Unauthorized, ErrorResult.Unauthorized(errors));
         }
 
-        public static Result Forbidden()
+        public static Result Forbidden(params Error[] errors)
         {
-            return new Result(ResultStatus.Forbidden, ErrorResult.Forbidden);
+            return new Result(ResultStatus.Forbidden, ErrorResult.Forbidden(errors));
         }
 
-        public static Result Conflict()
+        public static Result Conflict(params Error[] errors)
         {
-            return new Result(ResultStatus.Conflict, ErrorResult.Conflict);
+            return new Result(ResultStatus.Conflict, ErrorResult.Conflict(errors));
         }
 
-        public static Result NotFound()
+        public static Result NotFound(params Error[] errors)
         {
-            return new Result(ResultStatus.NotFound, ErrorResult.NotFound);
+            return new Result(ResultStatus.NotFound, ErrorResult.NotFound(errors));
         }
     }
 }
