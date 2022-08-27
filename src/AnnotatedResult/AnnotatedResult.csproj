@@ -9,9 +9,9 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>result, return, type, error, validation</PackageTags>
-    <PackageProjectUrl>https://github.com/einharan/AnnotatedResult/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/aliastopan/AnnotatedResult/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryURL>https://github.com/einharan/AnnotatedResult/</RepositoryURL>
+    <RepositoryURL>https://github.com/aliastopan/AnnotatedResult/</RepositoryURL>
 
     <!--SourceLink-->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
