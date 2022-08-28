@@ -7,21 +7,27 @@ public static class ResultExtensions
 {
     public static IResult HttpResult(this Result result)
     {
-        if(result.IsSuccess)
-        {
-            return Results.Ok();
-        }
+        return Match(result);
+    }
 
-        var errors = new List<string>();
-        foreach(var error in result.Errors)
+    public static IResult HttpResult<T>(this Result<T> result)
+    {
+        return Match(result);
+    }
+
+    private static IResult Match(Result result)
+    {
+        return result.Status switch
         {
-            errors.Add(error.Message);
-        }
-        var details = new ProblemDetails
-        {
-            Status = (int)result.Status
+            ResultStatus.Ok => Results.Ok(),
+            ResultStatus.Conflict => Results.Conflict(),
+            ResultStatus.Unauthorized => Results.Unauthorized(),
+            ResultStatus.Forbidden => Results.Forbid(),
+            ResultStatus.Invalid => Results.UnprocessableEntity(),
+            _ => Results.Problem(new ProblemDetails
+            {
+                Status = (int)result.Status
+            })
         };
-        details.Extensions["errors"] = errors;
-        return Results.Problem(details);
     }
 }
