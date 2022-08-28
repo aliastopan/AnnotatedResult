@@ -9,5 +9,10 @@ namespace AnnotatedResult
             var validator = new InternalValidator();
             return validator.TryValidate(instance, out errors);
         }
+
+        public static bool TryValidate<T>(this T instance, IResultValidator validator, out Error[] errors)
+        {
+            return validator.TryValidate(instance, out errors);
+        }
     }
 }
