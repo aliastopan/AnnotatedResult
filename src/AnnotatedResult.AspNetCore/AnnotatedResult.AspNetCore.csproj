@@ -3,6 +3,21 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>AnnotatedResult.AspNetCore</RootNamespace>
     <AssemblyName>AnnotatedResult.AspNetCore</AssemblyName>
+    <PackageId>AnnotatedResult.AspNetCore</PackageId>
+    <Version>1.0.0-preview.1</Version>
+    <Authors>Taufan Augusta</Authors>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>result, return, type, error, validation, aspnetcore</PackageTags>
+    <PackageProjectUrl>https://github.com/aliastopan/AnnotatedResult/</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryURL>https://github.com/aliastopan/AnnotatedResult/</RepositoryURL>
+
+    <!--SourceLink-->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
