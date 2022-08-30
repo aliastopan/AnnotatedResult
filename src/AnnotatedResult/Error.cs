@@ -5,7 +5,7 @@ namespace AnnotatedResult
         public string Message { get; }
         public ErrorSeverity Severity { get; set; }
 
-        public Error(string message, ErrorSeverity severity)
+        public Error(string message, ErrorSeverity severity = ErrorSeverity.Error)
         {
             Message = message;
             Severity = severity;
