@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AnnotatedResult.AspNetCore;
+namespace AnnotatedResult;
 
 public static class ResultExtensions
 {

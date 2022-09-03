@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>AnnotatedResult.AspNetCore</RootNamespace>
+    <RootNamespace>AnnotatedResult</RootNamespace>
     <AssemblyName>AnnotatedResult.AspNetCore</AssemblyName>
     <PackageId>AnnotatedResult.AspNetCore</PackageId>
     <Version>1.0.0-preview.1</Version>
