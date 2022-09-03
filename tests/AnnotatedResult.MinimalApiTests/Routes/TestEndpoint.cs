@@ -1,4 +1,3 @@
-using AnnotatedResult.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnnotatedResult.MinimalApiTests.Routes;
