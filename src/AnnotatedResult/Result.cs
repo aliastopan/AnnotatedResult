@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using AnnotatedResult.Internal;
@@ -23,6 +24,11 @@ namespace AnnotatedResult
         public ResultStatus Status { get; protected set; }
         public bool IsSuccess => Status == ResultStatus.Ok;
         public ReadOnlyCollection<Error> Errors => _errors.AsReadOnly();
+
+        public static Result Inherit(Result result)
+        {
+            return new Result(result.Status, result.Errors.ToArray());
+        }
 
         public static Result Ok()
         {

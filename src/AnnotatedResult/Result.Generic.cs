@@ -38,6 +38,11 @@ namespace AnnotatedResult
             return Result<T>.Validate(value, new InternalValidator());
         }
 
+        public static new Result<T> Inherit(Result result)
+        {
+            return new Result<T>(default, result.Status);
+        }
+
         public static Result<T> Ok(T value)
         {
             return new Result<T>(value, ResultStatus.Ok);
