@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using AnnotatedResult.Internal;
 
@@ -40,7 +41,7 @@ namespace AnnotatedResult
 
         public static new Result<T> Inherit(Result result)
         {
-            return new Result<T>(default, result.Status);
+            return new Result<T>(default, result.Status, result.Errors.ToArray());
         }
 
         public static Result<T> Ok(T value)
