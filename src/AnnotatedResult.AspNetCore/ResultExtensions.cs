@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +9,31 @@ namespace AnnotatedResult;
 
 public static class ResultExtensions
 {
+    public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> errors) fault, ProblemDetails details)
+    {
+        var errors = new List<string>();
+        foreach (var error in fault.errors)
+        {
+            errors.Add(error.Message);
+        }
+        details.Status = (int)fault.status;
+        details.Extensions["errors"] = errors;
+        return Results.Problem(details);
+    }
+
+    public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> errors) fault, ProblemDetails details, HttpContext context)
+    {
+        var errors = new List<string>();
+        foreach (var error in fault.errors)
+        {
+            errors.Add(error.Message);
+        }
+        details.Status = (int)fault.status;
+        details.Extensions["traceId"] = Activity.Current?.Id ?? context.TraceIdentifier;
+        details.Extensions["errors"] = errors;
+        return Results.Problem(details);
+    }
+
     public static IResult HttpResult(this Result result)
     {
         return Match(result);
