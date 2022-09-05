@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+
 namespace AnnotatedResult
 {
     public static class ResultExtensions
