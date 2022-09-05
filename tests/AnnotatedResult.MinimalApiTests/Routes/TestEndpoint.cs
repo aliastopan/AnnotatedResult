@@ -20,11 +20,11 @@ public class TestEndpoint : IRouteEndpoint
         var result = Registration(request);
         return result.Match(
             value => Results.Ok(value),
-            fault => Results.Problem(new ProblemDetails
+            fault => fault.AsProblem(new ProblemDetails
             {
-                Title = "Registration failed.",
-                Status = (int)fault.status
-            }));
+                Title = "Failed"
+            },
+            httpContext));
     }
 
     internal static Result<Response> Registration(Request request)
