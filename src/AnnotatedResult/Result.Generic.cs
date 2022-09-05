@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using AnnotatedResult.Internal;
 
@@ -22,6 +23,26 @@ namespace AnnotatedResult
 
         public T Value { get; private set; }
         public Type ValueType => Value.GetType();
+
+        public void Match(Action<T> onValue, Action<(ResultStatus status, ReadOnlyCollection<Error> errors)> onFault)
+        {
+            if(!IsSuccess)
+            {
+                onFault((Status, Errors));
+            }
+
+            onValue(Value);
+        }
+
+        public U Match<U>(Func<T, U> onValue, Func<(ResultStatus status, ReadOnlyCollection<Error> errors), U> onFault)
+        {
+            if(!IsSuccess)
+            {
+                return onFault((Status, Errors));
+            }
+
+            return onValue(Value);
+        }
 
         public static Result<T> Validate(T value, IResultValidator validator)
         {
