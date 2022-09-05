@@ -18,10 +18,13 @@ public class TestEndpoint : IRouteEndpoint
     internal IResult Register(Request request, HttpContext httpContext)
     {
         var result = Registration(request);
-        return result.HttpResult(httpContext, new ProblemDetails
-        {
-            Title = "Registration failed.",
-        });
+        return result.Match(
+            value => Results.Ok(value),
+            fault => Results.Problem(new ProblemDetails
+            {
+                Title = "Registration failed.",
+                Status = (int)fault.status
+            }));
     }
 
     internal static Result<Response> Registration(Request request)
