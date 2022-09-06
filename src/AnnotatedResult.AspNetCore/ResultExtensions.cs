@@ -9,26 +9,26 @@ namespace AnnotatedResult;
 
 public static class ResultExtensions
 {
-    public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> errors) fault, ProblemDetails details)
+    public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details)
     {
         var errors = new List<string>();
-        foreach (var error in fault.errors)
+        foreach(var err in error.list)
         {
-            errors.Add(error.Message);
+            errors.Add(err.Message);
         }
-        details.Status = (int)fault.status;
+        details.Status = (int)error.status;
         details.Extensions["errors"] = errors;
         return Results.Problem(details);
     }
 
-    public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> errors) fault, ProblemDetails details, HttpContext context)
+    public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details, HttpContext context)
     {
         var errors = new List<string>();
-        foreach (var error in fault.errors)
+        foreach(var err in error.list)
         {
-            errors.Add(error.Message);
+            errors.Add(err.Message);
         }
-        details.Status = (int)fault.status;
+        details.Status = (int)error.status;
         details.Extensions["traceId"] = Activity.Current?.Id ?? context.TraceIdentifier;
         details.Extensions["errors"] = errors;
         return Results.Problem(details);
