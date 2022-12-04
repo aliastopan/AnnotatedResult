@@ -9,7 +9,8 @@ public static class Sampling
         Serilog.Log.Information("Starting...");
         // ResultValidation.Run();
         // CompositeValidation.Run();
-        Result400.Run();
+        // Result400.Run();
         // CustomError.Run();
+        CompareValidation.Run();
     }
 }
