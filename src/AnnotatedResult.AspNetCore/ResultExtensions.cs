@@ -62,6 +62,15 @@ public static class ResultExtensions
         };
     }
 
+    public static IResult HttpResult(this Result result, HttpContext context, ProblemDetails details)
+    {
+        return result.Status switch
+        {
+            ResultStatus.Ok => Results.Ok(),
+            _ => result.Problem(context, details)
+        };
+    }
+
     public static IResult HttpResult<T>(this Result<T> result, HttpContext context)
     {
         return result.Status switch
