@@ -1,15 +1,20 @@
+#nullable disable
+
 using System.ComponentModel.DataAnnotations;
+using AnnotatedResult.SampleTests.Validations;
 
 namespace AnnotatedResult.SampleTests.Models;
 
 public class Request
 {
     [Required]
-    public string Username { get; init; } = null!;
+    [RegularExpression(RegexPattern.Username)]
+    public string Username { get; init; }
 
     [EmailAddress]
-    public string Email { get; init; } = null!;
+    public string Email { get; init; }
 
     [Required]
-    public string Password { get; init; } = null!;
+    [RegularExpression(RegexPattern.StrongPassword)]
+    public string Password { get; init; }
 }
