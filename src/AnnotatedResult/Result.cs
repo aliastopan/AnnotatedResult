@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,26 @@ namespace AnnotatedResult
         public ResultStatus Status { get; protected set; }
         public bool IsSuccess => Status == ResultStatus.Ok;
         public ReadOnlyCollection<Error> Errors => _errors.AsReadOnly();
+
+        public void Match(Action onValue, Action<(ResultStatus status, ReadOnlyCollection<Error> errors)> onFault)
+        {
+            if(!IsSuccess)
+            {
+                onFault((Status, Errors));
+            }
+
+            onValue();
+        }
+
+        public U Match<U>(Func<U> onValue, Func<(ResultStatus status, ReadOnlyCollection<Error> errors), U> onFault)
+        {
+            if(!IsSuccess)
+            {
+                return onFault((Status, Errors));
+            }
+
+            return onValue();
+        }
 
         public static Result Inherit(Result result)
         {

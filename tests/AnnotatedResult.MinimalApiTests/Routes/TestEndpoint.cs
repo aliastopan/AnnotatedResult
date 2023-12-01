@@ -10,9 +10,23 @@ public class TestEndpoint : IRouteEndpoint
         app.MapPost("/register", Register);
     }
 
-    internal IResult Test()
+    internal IResult Test(HttpContext httpContext)
     {
-        return Results.Ok();
+        var result = Result.Ok();
+
+        result.Match(() => Console.WriteLine(result.Status),
+            error => error.AsProblem(new ProblemDetails
+            {
+                Title = "Failed",
+            },
+            httpContext));
+
+        return result.Match(() => Results.Ok(),
+            error => error.AsProblem(new ProblemDetails
+            {
+                Title = "Failed",
+            },
+            httpContext));
     }
 
     internal IResult Register(Request request, HttpContext httpContext)
