@@ -13,5 +13,15 @@ namespace AnnotatedResult
         {
             return Task.FromResult(result);
         }
+
+        public static Task<Result> AsCompletedTask(this Result result)
+        {
+            return Task.FromResult(result);
+        }
+
+        public static Task<Result<T>> AsCompletedTask<T>(this Result<T> result)
+        {
+            return Task.FromResult(result);
+        }
     }
 }
