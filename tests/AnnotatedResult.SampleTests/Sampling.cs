@@ -11,6 +11,7 @@ public static class Sampling
         // CompositeValidation.Run();
         // Result400.Run();
         // CustomError.Run();
-        CompareValidation.Run();
+        // CompareValidation.Run();
+        MetadataTest.Run();
     }
 }

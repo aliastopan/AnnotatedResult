@@ -9,22 +9,27 @@ namespace AnnotatedResult
     public class Result
     {
         private readonly List<Error> _errors;
+        private readonly Dictionary<string, object> _metadata;
 
         internal Result(ResultStatus status)
         {
             Status = status;
             _errors = new List<Error>();
+            _metadata = new Dictionary<string, object>();
         }
 
         internal Result(ResultStatus status, params Error[] errors)
         {
             Status = status;
             _errors = new List<Error>(errors);
+            _metadata = new Dictionary<string, object>();
         }
 
         public ResultStatus Status { get; protected set; }
         public bool IsSuccess => Status == ResultStatus.Ok;
+        public bool HasMetadata => _metadata.Count > 0;
         public ReadOnlyCollection<Error> Errors => _errors.AsReadOnly();
+        public IReadOnlyDictionary<string, object> Metadata => _metadata;
 
         public void Match(Action onValue, Action<(ResultStatus status, ReadOnlyCollection<Error> errors)> onFault)
         {
@@ -44,6 +49,16 @@ namespace AnnotatedResult
             }
 
             return onValue();
+        }
+
+        public void AddMetadata(Dictionary<string, object> metadata)
+        {
+            for(int i = 0; i < metadata.Count; i++)
+            {
+                var key = metadata.ElementAt(i).Key;
+                var value = metadata.ElementAt(i).Value;
+                _metadata.Add(key, value);
+            }
         }
 
         public static Result Inherit(Result result)
