@@ -7,7 +7,7 @@ AnnotatedResult is a lightweight .NET model validation library utilizing `System
 
 ## NuGet Package
 ```
-dotnet add package AnnotatedResult --version 1.0.0-preview.8
+dotnet add package AnnotatedResult --version 1.0.0-preview.12
 ```
 
 ## Overview
