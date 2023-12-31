@@ -40,6 +40,11 @@ namespace AnnotatedResult
         public bool IsSuccess => Status == ResultStatus.Ok;
 
         /// <summary>
+        /// Gets a value indicating whether the result is a failure.
+        /// </summary>
+        public bool IsFailure => !IsSuccess;
+
+        /// <summary>
         /// Gets a value indicating whether the result has metadata.
         /// </summary>
         public bool HasMetadata => _metadata.Count > 0;
