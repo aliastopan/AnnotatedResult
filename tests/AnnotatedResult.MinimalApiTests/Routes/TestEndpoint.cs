@@ -7,7 +7,21 @@ public class TestEndpoint : IRouteEndpoint
     public void DefineEndpoints(WebApplication app)
     {
         app.MapGet("/", Test);
+        app.MapGet("/error", ReturnError);
         app.MapPost("/register", Register);
+    }
+
+    internal IResult ReturnError(HttpContext httpContext)
+    {
+        var error = new Error("Something went wrong.", ErrorSeverity.Critical);
+        var result = Result.Error(404, error);
+
+        return result.Match(() => Results.Ok(),
+            error => error.AsProblem(new ProblemDetails
+            {
+                Title = "Failed",
+            },
+            httpContext));
     }
 
     internal IResult Test(HttpContext httpContext)
