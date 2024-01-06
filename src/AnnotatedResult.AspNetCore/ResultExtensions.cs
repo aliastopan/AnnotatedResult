@@ -11,10 +11,14 @@ public static class ResultExtensions
 {
     public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details)
     {
-        var errors = new List<string>();
+        var errors = new List<object>();
         foreach(var err in error.list)
         {
-            errors.Add(err.Message);
+            errors.Add(new
+            {
+                message = err.Message,
+                severity = err.Severity.ToString()
+            });
         }
         details.Status = (int)error.status;
         details.Extensions["errors"] = errors;
@@ -23,10 +27,14 @@ public static class ResultExtensions
 
     public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details, HttpContext context)
     {
-        var errors = new List<string>();
+        var errors = new List<object>();
         foreach(var err in error.list)
         {
-            errors.Add(err.Message);
+            errors.Add(new
+            {
+                message = err.Message,
+                severity = err.Severity.ToString()
+            });
         }
         details.Status = (int)error.status;
         details.Extensions["traceId"] = Activity.Current?.Id ?? context.TraceIdentifier;
