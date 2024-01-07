@@ -1,13 +1,16 @@
 # AnnotatedResult
 ![Nuget](https://img.shields.io/nuget/v/AnnotatedResult)
 ![Nuget](https://img.shields.io/nuget/dt/AnnotatedResult?style=flat)
+![Nuget](https://img.shields.io/nuget/v/AnnotatedResult.AspNetCore)
+![Nuget](https://img.shields.io/nuget/dt/AnnotatedResult.AspNetCore?style=flat)
 ![GitHub](https://img.shields.io/github/license/aliastopan/AnnotatedResult)
 
 AnnotatedResult is a lightweight .NET model validation library utilizing `System.ComponentModel.DataAnnotations`.
 
 ## NuGet Package
 ```
-dotnet add package AnnotatedResult --version 1.0.0-preview.12
+dotnet add package AnnotatedResult --version 1.0.0-rc.1
+dotnet add package AnnotatedResult.AspNetCore --version 1.0.0-rc.1
 ```
 
 ## Overview
