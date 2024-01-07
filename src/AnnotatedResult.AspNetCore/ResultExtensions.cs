@@ -37,22 +37,23 @@ public static class ResultExtensions
             });
         }
         details.Status = (int)error.status;
+        details.Instance = context.Request.Path;
         details.Extensions["traceId"] = Activity.Current?.Id ?? context.TraceIdentifier;
         details.Extensions["errors"] = errors;
         return Results.Problem(details);
     }
 
-    public static IResult HttpResult(this Result result)
+    public static IResult MakeNative(this Result result)
     {
         return Match(result);
     }
 
-    public static IResult HttpResult<T>(this Result<T> result)
+    public static IResult MakeNative<T>(this Result<T> result)
     {
         return Match(result);
     }
 
-    public static IResult HttpResult(this Result result, ProblemDetails details)
+    public static IResult MakeNative(this Result result, ProblemDetails details)
     {
         return result.Status switch
         {
@@ -61,7 +62,7 @@ public static class ResultExtensions
         };
     }
 
-    public static IResult HttpResult(this Result result, HttpContext context)
+    public static IResult MakeNative(this Result result, HttpContext context)
     {
         return result.Status switch
         {
@@ -70,7 +71,7 @@ public static class ResultExtensions
         };
     }
 
-    public static IResult HttpResult(this Result result, HttpContext context, ProblemDetails details)
+    public static IResult MakeNative(this Result result, HttpContext context, ProblemDetails details)
     {
         return result.Status switch
         {
@@ -79,7 +80,7 @@ public static class ResultExtensions
         };
     }
 
-    public static IResult HttpResult<T>(this Result<T> result, HttpContext context)
+    public static IResult MakeNative<T>(this Result<T> result, HttpContext context)
     {
         return result.Status switch
         {
@@ -88,7 +89,7 @@ public static class ResultExtensions
         };
     }
 
-    public static IResult HttpResult<T>(this Result<T> result, ProblemDetails details)
+    public static IResult MakeNative<T>(this Result<T> result, ProblemDetails details)
     {
         return result.Status switch
         {
@@ -97,7 +98,7 @@ public static class ResultExtensions
         };
     }
 
-    public static IResult HttpResult<T>(this Result<T> result, HttpContext context, ProblemDetails details)
+    public static IResult MakeNative<T>(this Result<T> result, HttpContext context, ProblemDetails details)
     {
         return result.Status switch
         {
