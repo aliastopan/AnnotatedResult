@@ -58,7 +58,7 @@ namespace AnnotatedResult
         /// <param name="onFault">The action to execute if the result is faulty, providing status and errors.</param>
         public void Match(Action<T> onValue, Action<(ResultStatus status, ReadOnlyCollection<Error> errors)> onFault)
         {
-            if(!IsSuccess)
+            if(IsFailure())
             {
                 onFault((Status, Errors));
             }
@@ -75,7 +75,7 @@ namespace AnnotatedResult
         /// <returns>The result of the executed function.</returns>
         public U Match<U>(Func<T, U> onValue, Func<(ResultStatus status, ReadOnlyCollection<Error> errors), U> onFault)
         {
-            if(!IsSuccess)
+            if(IsFailure())
             {
                 return onFault((Status, Errors));
             }

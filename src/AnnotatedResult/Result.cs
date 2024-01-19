@@ -35,21 +35,6 @@ namespace AnnotatedResult
         public ResultStatus Status { get; protected set; }
 
         /// <summary>
-        /// Gets a value indicating whether the result is a success.
-        /// </summary>
-        public bool IsSuccess => Status == ResultStatus.Ok;
-
-        /// <summary>
-        /// Gets a value indicating whether the result is a failure.
-        /// </summary>
-        public bool IsFailure => !IsSuccess;
-
-        /// <summary>
-        /// Gets a value indicating whether the result has metadata.
-        /// </summary>
-        public bool HasMetadata => _metadata.Count > 0;
-
-        /// <summary>
         /// Gets the errors associated with the result.
         /// </summary>
         public ReadOnlyCollection<Error> Errors => _errors.AsReadOnly();
@@ -60,13 +45,37 @@ namespace AnnotatedResult
         public IReadOnlyDictionary<string, object> Metadata => _metadata;
 
         /// <summary>
+        /// Gets a value indicating whether the result is a success.
+        /// </summary>
+        public bool IsSuccess()
+        {
+            return Status == ResultStatus.Ok;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the result is a failure.
+        /// </summary>
+        public bool IsFailure()
+        {
+            return !IsSuccess();
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the result has metadata.
+        /// </summary>
+        public bool HasMetadata()
+        {
+            return _metadata.Count > 0;
+        }
+
+        /// <summary>
         /// Executes the specified actions based on the result status.
         /// </summary>
         /// <param name="onValue">The action to execute if the result is successful.</param>
         /// <param name="onFault">The action to execute if the result is faulty, providing status and errors.</param>
         public void Match(Action onValue, Action<(ResultStatus status, ReadOnlyCollection<Error> errors)> onFault)
         {
-            if(!IsSuccess)
+            if(IsFailure())
             {
                 onFault((Status, Errors));
             }
@@ -83,7 +92,7 @@ namespace AnnotatedResult
         /// <returns>The result of the executed function.</returns>
         public U Match<U>(Func<U> onValue, Func<(ResultStatus status, ReadOnlyCollection<Error> errors), U> onFault)
         {
-            if(!IsSuccess)
+            if(IsFailure())
             {
                 return onFault((Status, Errors));
             }
