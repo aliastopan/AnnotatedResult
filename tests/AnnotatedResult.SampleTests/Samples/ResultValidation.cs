@@ -24,7 +24,7 @@ public static class ResultValidation
 
         result = Result<Request>.Ok(request);
         Serilog.Log.Information("Status: {0}", result.Status);
-        if(result.IsSuccess)
+        if(result.IsSuccess())
         {
             request = result;
             Serilog.Log.Information("Username: {0}", request.Username);

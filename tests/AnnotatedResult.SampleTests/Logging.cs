@@ -4,7 +4,7 @@ public static class Logging
 {
     public static void Log(this Result result)
     {
-        if(result.IsSuccess && result.HasMetadata)
+        if(result.IsSuccess() && result.HasMetadata())
         {
             foreach(var metadata in result.Metadata)
             {
