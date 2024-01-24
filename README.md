@@ -9,7 +9,7 @@ AnnotatedResult is a lightweight .NET model validation library utilizing `System
 
 ## NuGet Package
 ```
-dotnet add package AnnotatedResult --version 1.0.0-rc.3
+dotnet add package AnnotatedResult --version 1.0.0-rc.4
 dotnet add package AnnotatedResult.AspNetCore --version 1.0.0-rc.3
 ```
 
