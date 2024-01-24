@@ -8,15 +8,15 @@ public class HttpResult
     /// <summary>
     /// Gets a value indicating whether the HTTP request was successful.
     /// </summary>
-    public bool IsSuccessStatusCode { get; private set; }
+    public bool IsSuccessStatusCode { get; set; }
 
     /// <summary>
     /// Gets the headers associated with the HTTP response.
     /// </summary>
-    public HttpResponseHeaders Headers { get; private set; }
+    public HttpResponseHeaders Headers { get; set; }
 
     /// <summary>
     /// Gets the content of the HTTP response.
     /// </summary>
-    public string Content { get; private set; }
+    public string Content { get; set; }
 }
