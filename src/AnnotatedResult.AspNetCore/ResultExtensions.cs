@@ -2,13 +2,41 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnnotatedResult;
 
+/// <summary>
+/// Provides extension methods for working with results in ASP.NET Core applications.
+/// </summary>
 public static class ResultExtensions
 {
+    /// <summary>
+    /// Retrieves the extension for the <see cref="ProblemDetails"/> object.
+    /// </summary>
+    /// <param name="problemDetails">The <see cref="ProblemDetails"/> object.</param>
+    /// <returns>The extension for the <see cref="ProblemDetails"/>.</returns>
+    public static ProblemDetailsExtension GetExtension(this ProblemDetails problemDetails)
+    {
+        var problemDetailsExtension = new ProblemDetailsExtension();
+
+        JsonElement jsonErrors = (JsonElement)problemDetails!.Extensions["errors"];
+        JsonElement jsonArray = JsonSerializer.Deserialize<JsonElement>(jsonErrors);
+
+        foreach (JsonElement jsonElement in jsonArray.EnumerateArray())
+        {
+            string message = jsonElement.GetProperty("message").GetString();
+            string severity = jsonElement.GetProperty("severity").GetString();
+
+            _ = Enum.TryParse<ErrorSeverity>(severity, out var errorSeverity);
+            problemDetailsExtension.AddError(message, errorSeverity);
+        }
+
+        return problemDetailsExtension;
+    }
+
     public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details)
     {
         var errors = new List<object>();
