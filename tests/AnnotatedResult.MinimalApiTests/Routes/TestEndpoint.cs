@@ -19,7 +19,9 @@ public class TestEndpoint : IRouteEndpoint
         return result.Match(() => Results.Ok(),
             error => error.AsProblem(new ProblemDetails
             {
+                Type = "/error/test",
                 Title = "Failed",
+                Instance = httpContext.Request.Path
             },
             httpContext));
     }
