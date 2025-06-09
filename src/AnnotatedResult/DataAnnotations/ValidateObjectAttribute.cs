@@ -6,9 +6,13 @@ using AnnotatedResult.Internal;
 namespace AnnotatedResult.DataAnnotations
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class ValidateObjectAttribute : ValidationAttribute
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         protected override ValidationResult IsValid(object value, ValidationContext context)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             var invalids = TryValidate(value, out List<Error> errors);
             if (invalids.Count == 0)
