@@ -72,12 +72,12 @@ namespace AnnotatedResult
         /// Executes the specified actions based on the result status.
         /// </summary>
         /// <param name="onValue">The action to execute if the result is successful.</param>
-        /// <param name="onFault">The action to execute if the result is faulty, providing status and errors.</param>
-        public void Match(Action onValue, Action<(ResultStatus status, ReadOnlyCollection<Error> errors)> onFault)
+        /// <param name="onError">The action to execute if the result is faulty, providing status and errors.</param>
+        public void Match(Action onValue, Action<(ResultStatus status, ReadOnlyCollection<Error> errors)> onError)
         {
             if(IsFailure())
             {
-                onFault((Status, Errors));
+                onError((Status, Errors));
             }
 
             onValue();
@@ -88,13 +88,13 @@ namespace AnnotatedResult
         /// </summary>
         /// <typeparam name="U">The type of the value to return.</typeparam>
         /// <param name="onValue">The function to execute if the result is successful.</param>
-        /// <param name="onFault">The function to execute if the result is faulty, providing status and errors.</param>
+        /// <param name="onError">The function to execute if the result is faulty, providing status and errors.</param>
         /// <returns>The result of the executed function.</returns>
-        public U Match<U>(Func<U> onValue, Func<(ResultStatus status, ReadOnlyCollection<Error> errors), U> onFault)
+        public U Match<U>(Func<U> onValue, Func<(ResultStatus status, ReadOnlyCollection<Error> errors), U> onError)
         {
             if(IsFailure())
             {
-                return onFault((Status, Errors));
+                return onError((Status, Errors));
             }
 
             return onValue();
