@@ -50,7 +50,8 @@ public static class ResultExtensions
     /// <returns>
     /// An <see cref="IResult"/> representing the problem response, with error details included in the extensions.
     /// </returns>
-    public static IResult WithProblemDetails(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details)
+    public static IResult WithProblemDetails(this (ResultStatus status, ReadOnlyCollection<Error> list) error,
+        ProblemDetails details)
     {
         var errors = new List<object>();
         foreach (var err in error.list)
@@ -82,7 +83,42 @@ public static class ResultExtensions
     /// <returns>
     /// An <see cref="IResult"/> representing the problem details response, including error messages, severities, and trace information.
     /// </returns>
-    public static IResult WithProblemDetails(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details, HttpContext context)
+    public static IResult WithProblemDetails(this (ResultStatus status, ReadOnlyCollection<Error> list) error,
+        ProblemDetails details,
+        HttpContext context)
+    {
+        var errors = new List<object>();
+        foreach (var err in error.list)
+        {
+            errors.Add(new
+            {
+                message = err.Message,
+                severity = err.Severity.ToString()
+            });
+        }
+        details.Status = (int)error.status;
+        details.Instance = context.Request.Path;
+        details.Extensions["traceId"] = Activity.Current?.Id ?? context.TraceIdentifier;
+        details.Extensions["errors"] = errors;
+        return Results.Problem(details);
+    }
+
+    /// <summary>
+    /// Creates an <see cref="IResult"/> containing problem details based on the provided error information and <see cref="ProblemDetails"/> instance.
+    /// </summary>
+    /// <param name="context">The current <see cref="HttpContext"/>.</param>
+    /// <param name="error">
+    /// A tuple containing the <see cref="ResultStatus"/> and a read-only collection of <see cref="Error"/> objects representing the errors to include in the response.
+    /// </param>
+    /// <param name="details">
+    /// The <see cref="ProblemDetails"/> instance to populate with error information and additional metadata.
+    /// </param>
+    /// <returns>
+    /// An <see cref="IResult"/> representing the problem details response, including error messages, severity, trace identifier, and request path.
+    /// </returns>
+    public static IResult WithProblemDetails(this HttpContext context,
+        (ResultStatus status, ReadOnlyCollection<Error> list) error,
+        ProblemDetails details)
     {
         var errors = new List<object>();
         foreach (var err in error.list)

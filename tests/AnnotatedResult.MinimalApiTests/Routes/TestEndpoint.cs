@@ -45,6 +45,24 @@ public class TestEndpoint : IRouteEndpoint
             httpContext));
     }
 
+    internal IResult Test2(HttpContext httpContext)
+    {
+        var result = Result.Ok();
+
+        result.Match(() => Console.WriteLine(result.Status),
+            error => error.WithProblemDetails(new ProblemDetails
+            {
+                Title = "Failed",
+            },
+            httpContext));
+
+        return result.Match(() => Results.Ok(),
+            error => httpContext.WithProblemDetails(error, new ProblemDetails
+            {
+                Title = "Failed",
+            }));
+    }
+
     internal IResult Register(Request request, HttpContext httpContext)
     {
         var result = Registration(request);
