@@ -52,13 +52,17 @@ namespace AnnotatedResult
         public Type ValueType => Value.GetType();
 
         /// <summary>
-        /// Executes the specified actions based on the result status.
+        /// Executes one of the provided actions depending on whether the result is successful or a failure.
         /// </summary>
-        /// <param name="onValue">The action to execute if the result is successful.</param>
-        /// <param name="onFault">The action to execute if the result is faulty, providing status and errors.</param>
+        /// <param name="onValue">
+        /// The action to execute if the result is successful. Receives the result value as a parameter.
+        /// </param>
+        /// <param name="onFault">
+        /// The action to execute if the result is a failure. Receives a tuple containing the result status and a read-only collection of errors.
+        /// </param>
         public void Match(Action<T> onValue, Action<(ResultStatus status, ReadOnlyCollection<Error> errors)> onFault)
         {
-            if(IsFailure())
+            if (IsFailure())
             {
                 onFault((Status, Errors));
             }
@@ -66,13 +70,19 @@ namespace AnnotatedResult
             onValue(Value);
         }
 
-        /// <summary>
-        /// Executes the specified functions based on the result status.
-        /// </summary>
-        /// <typeparam name="U">The type of the value to return.</typeparam>
-        /// <param name="onValue">The function to execute if the result is successful.</param>
-        /// <param name="onFault">The function to execute if the result is faulty, providing status and errors.</param>
-        /// <returns>The result of the executed function.</returns>
+    /// <summary>
+    /// Executes one of the provided functions depending on whether the result is successful or a failure, and returns the function's result.
+    /// </summary>
+    /// <typeparam name="U">The type of the value to return from the function.</typeparam>
+    /// <param name="onValue">
+    /// The function to execute if the result is successful. Receives the result value as a parameter.
+    /// </param>
+    /// <param name="onFault">
+    /// The function to execute if the result is a failure. Receives a tuple containing the result status and a read-only collection of errors.
+    /// </param>
+    /// <returns>
+    /// The value returned by either <paramref name="onValue"/> or <paramref name="onFault"/>, depending on the result status.
+    /// </returns>
         public U Match<U>(Func<T, U> onValue, Func<(ResultStatus status, ReadOnlyCollection<Error> errors), U> onFault)
         {
             if(IsFailure())
