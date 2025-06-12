@@ -37,10 +37,23 @@ public static class ResultExtensions
         return problemDetailsExtension;
     }
 
+    /// <summary>
+    /// Converts a tuple containing a <see cref="ResultStatus"/> and a read-only collection of <see cref="Error"/> objects
+    /// into an <see cref="IResult"/> representing a problem response, using the provided <see cref="ProblemDetails"/>.
+    /// </summary>
+    /// <param name="error">
+    /// A tuple containing the result status and a read-only collection of errors to be included in the problem response.
+    /// </param>
+    /// <param name="details">
+    /// The <see cref="ProblemDetails"/> object to populate with error information and status code.
+    /// </param>
+    /// <returns>
+    /// An <see cref="IResult"/> representing the problem response, with error details included in the extensions.
+    /// </returns>
     public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details)
     {
         var errors = new List<object>();
-        foreach(var err in error.list)
+        foreach (var err in error.list)
         {
             errors.Add(new
             {
@@ -53,10 +66,26 @@ public static class ResultExtensions
         return Results.Problem(details);
     }
 
+    /// <summary>
+    /// Converts a tuple containing a <see cref="ResultStatus"/> and a read-only collection of <see cref="Error"/> objects
+    /// into an <see cref="IResult"/> formatted as a problem details response.
+    /// </summary>
+    /// <param name="error">
+    /// A tuple containing the result status and a read-only collection of errors to be included in the problem details.
+    /// </param>
+    /// <param name="details">
+    /// The <see cref="ProblemDetails"/> object to populate with error information.
+    /// </param>
+    /// <param name="context">
+    /// The current <see cref="HttpContext"/>, used to set the instance and trace identifier in the problem details.
+    /// </param>
+    /// <returns>
+    /// An <see cref="IResult"/> representing the problem details response, including error messages, severities, and trace information.
+    /// </returns>
     public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details, HttpContext context)
     {
         var errors = new List<object>();
-        foreach(var err in error.list)
+        foreach (var err in error.list)
         {
             errors.Add(new
             {
@@ -71,17 +100,34 @@ public static class ResultExtensions
         return Results.Problem(details);
     }
 
-    public static IResult MakeNative(this Result result)
+    /// <summary>
+    /// Converts a <see cref="Result"/> to an <see cref="IResult"/> for ASP.NET Core endpoints.
+    /// </summary>
+    /// <param name="result">The result to convert.</param>
+    /// <returns>An <see cref="IResult"/> representing the outcome.</returns>
+    public static IResult AsIResult(this Result result)
     {
         return Match(result);
     }
 
-    public static IResult MakeNative<T>(this Result<T> result)
+    /// <summary>
+    /// Converts a <see cref="Result{T}"/> to an <see cref="IResult"/> for ASP.NET Core endpoints.
+    /// </summary>
+    /// <typeparam name="T">The type of the value contained in the result.</typeparam>
+    /// <param name="result">The result to convert.</param>
+    /// <returns>An <see cref="IResult"/> representing the outcome.</returns>
+    public static IResult AsIResult<T>(this Result<T> result)
     {
         return Match(result);
     }
 
-    public static IResult MakeNative(this Result result, ProblemDetails details)
+    /// <summary>
+    /// Converts a <see cref="Result"/> to an <see cref="IResult"/>, using the specified <see cref="ProblemDetails"/> for errors.
+    /// </summary>
+    /// <param name="result">The result to convert.</param>
+    /// <param name="details">The <see cref="ProblemDetails"/> to use if the result is not successful.</param>
+    /// <returns>An <see cref="IResult"/> representing the outcome.</returns>
+    public static IResult AsIResult(this Result result, ProblemDetails details)
     {
         return result.Status switch
         {
@@ -90,7 +136,13 @@ public static class ResultExtensions
         };
     }
 
-    public static IResult MakeNative(this Result result, HttpContext context)
+    /// <summary>
+    /// Converts a <see cref="Result"/> to an <see cref="IResult"/>, using the specified <see cref="HttpContext"/> for error details.
+    /// </summary>
+    /// <param name="result">The result to convert.</param>
+    /// <param name="context">The current <see cref="HttpContext"/>.</param>
+    /// <returns>An <see cref="IResult"/> representing the outcome.</returns>
+    public static IResult AsIResult(this Result result, HttpContext context)
     {
         return result.Status switch
         {
@@ -99,7 +151,14 @@ public static class ResultExtensions
         };
     }
 
-    public static IResult MakeNative(this Result result, HttpContext context, ProblemDetails details)
+    /// <summary>
+    /// Converts a <see cref="Result"/> to an <see cref="IResult"/>, using the specified <see cref="HttpContext"/> and <see cref="ProblemDetails"/> for errors.
+    /// </summary>
+    /// <param name="result">The result to convert.</param>
+    /// <param name="context">The current <see cref="HttpContext"/>.</param>
+    /// <param name="details">The <see cref="ProblemDetails"/> to use if the result is not successful.</param>
+    /// <returns>An <see cref="IResult"/> representing the outcome.</returns>
+    public static IResult AsIResult(this Result result, HttpContext context, ProblemDetails details)
     {
         return result.Status switch
         {
@@ -108,7 +167,14 @@ public static class ResultExtensions
         };
     }
 
-    public static IResult MakeNative<T>(this Result<T> result, HttpContext context)
+    /// <summary>
+    /// Converts a <see cref="Result{T}"/> to an <see cref="IResult"/>, using the specified <see cref="HttpContext"/> for error details.
+    /// </summary>
+    /// <typeparam name="T">The type of the value contained in the result.</typeparam>
+    /// <param name="result">The result to convert.</param>
+    /// <param name="context">The current <see cref="HttpContext"/>.</param>
+    /// <returns>An <see cref="IResult"/> representing the outcome.</returns>
+    public static IResult AsIResult<T>(this Result<T> result, HttpContext context)
     {
         return result.Status switch
         {
@@ -117,7 +183,14 @@ public static class ResultExtensions
         };
     }
 
-    public static IResult MakeNative<T>(this Result<T> result, ProblemDetails details)
+    /// <summary>
+    /// Converts a <see cref="Result{T}"/> to an <see cref="IResult"/>, using the specified <see cref="ProblemDetails"/> for errors.
+    /// </summary>
+    /// <typeparam name="T">The type of the value contained in the result.</typeparam>
+    /// <param name="result">The result to convert.</param>
+    /// <param name="details">The <see cref="ProblemDetails"/> to use if the result is not successful.</param>
+    /// <returns>An <see cref="IResult"/> representing the outcome.</returns>
+    public static IResult AsIResult<T>(this Result<T> result, ProblemDetails details)
     {
         return result.Status switch
         {
@@ -126,7 +199,15 @@ public static class ResultExtensions
         };
     }
 
-    public static IResult MakeNative<T>(this Result<T> result, HttpContext context, ProblemDetails details)
+    /// <summary>
+    /// Converts a <see cref="Result{T}"/> to an <see cref="IResult"/>, using the specified <see cref="HttpContext"/> and <see cref="ProblemDetails"/> for errors.
+    /// </summary>
+    /// <typeparam name="T">The type of the value contained in the result.</typeparam>
+    /// <param name="result">The result to convert.</param>
+    /// <param name="context">The current <see cref="HttpContext"/>.</param>
+    /// <param name="details">The <see cref="ProblemDetails"/> to use if the result is not successful.</param>
+    /// <returns>An <see cref="IResult"/> representing the outcome.</returns>
+    public static IResult AsIResult<T>(this Result<T> result, HttpContext context, ProblemDetails details)
     {
         return result.Status switch
         {
