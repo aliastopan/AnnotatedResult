@@ -17,7 +17,7 @@ public class TestEndpoint : IRouteEndpoint
         var result = Result.Error(404, error);
 
         return result.Match(() => Results.Ok(),
-            error => error.AsProblem(new ProblemDetails
+            error => error.WithProblemDetails(new ProblemDetails
             {
                 Type = "/error/test",
                 Title = "Failed",
@@ -31,14 +31,14 @@ public class TestEndpoint : IRouteEndpoint
         var result = Result.Ok();
 
         result.Match(() => Console.WriteLine(result.Status),
-            error => error.AsProblem(new ProblemDetails
+            error => error.WithProblemDetails(new ProblemDetails
             {
                 Title = "Failed",
             },
             httpContext));
 
         return result.Match(() => Results.Ok(),
-            error => error.AsProblem(new ProblemDetails
+            error => error.WithProblemDetails(new ProblemDetails
             {
                 Title = "Failed",
             },
@@ -50,7 +50,7 @@ public class TestEndpoint : IRouteEndpoint
         var result = Registration(request);
         return result.Match(
             value => Results.Ok(value),
-            fault => fault.AsProblem(new ProblemDetails
+            fault => fault.WithProblemDetails(new ProblemDetails
             {
                 Title = "Failed"
             },

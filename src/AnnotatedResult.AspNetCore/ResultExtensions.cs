@@ -50,7 +50,7 @@ public static class ResultExtensions
     /// <returns>
     /// An <see cref="IResult"/> representing the problem response, with error details included in the extensions.
     /// </returns>
-    public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details)
+    public static IResult WithProblemDetails(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details)
     {
         var errors = new List<object>();
         foreach (var err in error.list)
@@ -82,7 +82,7 @@ public static class ResultExtensions
     /// <returns>
     /// An <see cref="IResult"/> representing the problem details response, including error messages, severities, and trace information.
     /// </returns>
-    public static IResult AsProblem(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details, HttpContext context)
+    public static IResult WithProblemDetails(this (ResultStatus status, ReadOnlyCollection<Error> list) error, ProblemDetails details, HttpContext context)
     {
         var errors = new List<object>();
         foreach (var err in error.list)
