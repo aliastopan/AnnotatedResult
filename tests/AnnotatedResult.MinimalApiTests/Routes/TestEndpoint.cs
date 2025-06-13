@@ -63,7 +63,7 @@ public class TestEndpoint : IRouteEndpoint
             }));
     }
 
-    internal IResult Register(Request request, HttpContext httpContext)
+    internal IResult Register(Request request, HttpContext ctx)
     {
         var result = Registration(request);
         return result.Match(
@@ -72,7 +72,7 @@ public class TestEndpoint : IRouteEndpoint
             {
                 Title = "Failed"
             },
-            httpContext));
+            httpContext: ctx));
     }
 
     internal static Result<Response> Registration(Request request)

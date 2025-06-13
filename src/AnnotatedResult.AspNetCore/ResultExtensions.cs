@@ -77,7 +77,7 @@ public static class ResultExtensions
     /// <param name="details">
     /// The <see cref="ProblemDetails"/> object to populate with error information.
     /// </param>
-    /// <param name="context">
+    /// <param name="httpContext">
     /// The current <see cref="HttpContext"/>, used to set the instance and trace identifier in the problem details.
     /// </param>
     /// <returns>
@@ -85,7 +85,7 @@ public static class ResultExtensions
     /// </returns>
     public static IResult WithProblemDetails(this (ResultStatus status, ReadOnlyCollection<Error> list) error,
         ProblemDetails details,
-        HttpContext context)
+        HttpContext httpContext)
     {
         var errors = new List<object>();
         foreach (var err in error.list)
@@ -97,8 +97,8 @@ public static class ResultExtensions
             });
         }
         details.Status = (int)error.status;
-        details.Instance = context.Request.Path;
-        details.Extensions["traceId"] = Activity.Current?.Id ?? context.TraceIdentifier;
+        details.Instance = httpContext.Request.Path;
+        details.Extensions["traceId"] = Activity.Current?.Id ?? httpContext.TraceIdentifier;
         details.Extensions["errors"] = errors;
         return Results.Problem(details);
     }
@@ -106,7 +106,7 @@ public static class ResultExtensions
     /// <summary>
     /// Creates an <see cref="IResult"/> containing problem details based on the provided error information and <see cref="ProblemDetails"/> instance.
     /// </summary>
-    /// <param name="context">The current <see cref="HttpContext"/>.</param>
+    /// <param name="httpContext">The current <see cref="HttpContext"/>.</param>
     /// <param name="error">
     /// A tuple containing the <see cref="ResultStatus"/> and a read-only collection of <see cref="Error"/> objects representing the errors to include in the response.
     /// </param>
@@ -116,7 +116,7 @@ public static class ResultExtensions
     /// <returns>
     /// An <see cref="IResult"/> representing the problem details response, including error messages, severity, trace identifier, and request path.
     /// </returns>
-    public static IResult WithProblemDetails(this HttpContext context,
+    public static IResult WithProblemDetails(this HttpContext httpContext,
         (ResultStatus status, ReadOnlyCollection<Error> list) error,
         ProblemDetails details)
     {
@@ -130,8 +130,8 @@ public static class ResultExtensions
             });
         }
         details.Status = (int)error.status;
-        details.Instance = context.Request.Path;
-        details.Extensions["traceId"] = Activity.Current?.Id ?? context.TraceIdentifier;
+        details.Instance = httpContext.Request.Path;
+        details.Extensions["traceId"] = Activity.Current?.Id ?? httpContext.TraceIdentifier;
         details.Extensions["errors"] = errors;
         return Results.Problem(details);
     }
@@ -176,14 +176,14 @@ public static class ResultExtensions
     /// Converts a <see cref="Result"/> to an <see cref="IResult"/>, using the specified <see cref="HttpContext"/> for error details.
     /// </summary>
     /// <param name="result">The result to convert.</param>
-    /// <param name="context">The current <see cref="HttpContext"/>.</param>
+    /// <param name="httpContext">The current <see cref="HttpContext"/>.</param>
     /// <returns>An <see cref="IResult"/> representing the outcome.</returns>
-    public static IResult AsIResult(this Result result, HttpContext context)
+    public static IResult AsIResult(this Result result, HttpContext httpContext)
     {
         return result.Status switch
         {
             ResultStatus.Ok => Results.Ok(),
-            _ => result.Problem(context)
+            _ => result.Problem(httpContext)
         };
     }
 
@@ -191,15 +191,15 @@ public static class ResultExtensions
     /// Converts a <see cref="Result"/> to an <see cref="IResult"/>, using the specified <see cref="HttpContext"/> and <see cref="ProblemDetails"/> for errors.
     /// </summary>
     /// <param name="result">The result to convert.</param>
-    /// <param name="context">The current <see cref="HttpContext"/>.</param>
+    /// <param name="httpContext">The current <see cref="HttpContext"/>.</param>
     /// <param name="details">The <see cref="ProblemDetails"/> to use if the result is not successful.</param>
     /// <returns>An <see cref="IResult"/> representing the outcome.</returns>
-    public static IResult AsIResult(this Result result, HttpContext context, ProblemDetails details)
+    public static IResult AsIResult(this Result result, HttpContext httpContext, ProblemDetails details)
     {
         return result.Status switch
         {
             ResultStatus.Ok => Results.Ok(),
-            _ => result.Problem(context, details)
+            _ => result.Problem(httpContext, details)
         };
     }
 
@@ -208,14 +208,14 @@ public static class ResultExtensions
     /// </summary>
     /// <typeparam name="T">The type of the value contained in the result.</typeparam>
     /// <param name="result">The result to convert.</param>
-    /// <param name="context">The current <see cref="HttpContext"/>.</param>
+    /// <param name="httpContext">The current <see cref="HttpContext"/>.</param>
     /// <returns>An <see cref="IResult"/> representing the outcome.</returns>
-    public static IResult AsIResult<T>(this Result<T> result, HttpContext context)
+    public static IResult AsIResult<T>(this Result<T> result, HttpContext httpContext)
     {
         return result.Status switch
         {
             ResultStatus.Ok => Results.Ok(result.Value),
-            _ => result.Problem(context)
+            _ => result.Problem(httpContext)
         };
     }
 
@@ -240,19 +240,19 @@ public static class ResultExtensions
     /// </summary>
     /// <typeparam name="T">The type of the value contained in the result.</typeparam>
     /// <param name="result">The result to convert.</param>
-    /// <param name="context">The current <see cref="HttpContext"/>.</param>
+    /// <param name="httpContext">The current <see cref="HttpContext"/>.</param>
     /// <param name="details">The <see cref="ProblemDetails"/> to use if the result is not successful.</param>
     /// <returns>An <see cref="IResult"/> representing the outcome.</returns>
-    public static IResult AsIResult<T>(this Result<T> result, HttpContext context, ProblemDetails details)
+    public static IResult AsIResult<T>(this Result<T> result, HttpContext httpContext, ProblemDetails details)
     {
         return result.Status switch
         {
             ResultStatus.Ok => Results.Ok(result.Value),
-            _ => result.Problem(context, details)
+            _ => result.Problem(httpContext, details)
         };
     }
 
-    private static IResult Problem(this Result result, HttpContext context)
+    private static IResult Problem(this Result result, HttpContext httpContext)
     {
         var errors = new List<string>();
         foreach(var error in result.Errors)
@@ -263,9 +263,9 @@ public static class ResultExtensions
         var details = new ProblemDetails
         {
             Status = (int)result.Status,
-            Instance = context.Request.Path
+            Instance = httpContext.Request.Path
         };
-        details.Extensions["traceId"] = Activity.Current?.Id ?? context.TraceIdentifier;
+        details.Extensions["traceId"] = Activity.Current?.Id ?? httpContext.TraceIdentifier;
         return Results.Problem(details);
     }
 
@@ -281,7 +281,7 @@ public static class ResultExtensions
         return Results.Problem(details);
     }
 
-    private static IResult Problem(this Result result, HttpContext context, ProblemDetails details)
+    private static IResult Problem(this Result result, HttpContext httpContext, ProblemDetails details)
     {
         var errors = new List<string>();
         foreach (var error in result.Errors)
@@ -289,8 +289,8 @@ public static class ResultExtensions
             errors.Add(error.Message);
         }
         details.Status = (int)result.Status;
-        details.Instance = context.Request.Path;
-        details.Extensions["traceId"] = Activity.Current?.Id ?? context.TraceIdentifier;
+        details.Instance = httpContext.Request.Path;
+        details.Extensions["traceId"] = Activity.Current?.Id ?? httpContext.TraceIdentifier;
         details.Extensions["errors"] = errors;
         return Results.Problem(details);
     }
