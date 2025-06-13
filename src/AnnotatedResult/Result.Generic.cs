@@ -70,19 +70,19 @@ namespace AnnotatedResult
             onPass(Value);
         }
 
-    /// <summary>
-    /// Executes one of the provided functions depending on whether the result is successful or a failure, and returns the function's result.
-    /// </summary>
-    /// <typeparam name="U">The type of the value to return from the function.</typeparam>
-    /// <param name="onPass">
-    /// The function to execute if the result is successful. Receives the result value as a parameter.
-    /// </param>
-    /// <param name="onFail">
-    /// The function to execute if the result is a failure. Receives a tuple containing the result status and a read-only collection of errors.
-    /// </param>
-    /// <returns>
-    /// The value returned by either <paramref name="onPass"/> or <paramref name="onFail"/>, depending on the result status.
-    /// </returns>
+        /// <summary>
+        /// Executes one of the provided functions depending on whether the result is successful or a failure, and returns the function's result.
+        /// </summary>
+        /// <typeparam name="U">The type of the value to return from the function.</typeparam>
+        /// <param name="onPass">
+        /// The function to execute if the result is successful. Receives the result value as a parameter.
+        /// </param>
+        /// <param name="onFail">
+        /// The function to execute if the result is a failure. Receives a tuple containing the result status and a read-only collection of errors.
+        /// </param>
+        /// <returns>
+        /// The value returned by either <paramref name="onPass"/> or <paramref name="onFail"/>, depending on the result status.
+        /// </returns>
         public U Match<U>(Func<T, U> onPass, Func<(ResultStatus status, ReadOnlyCollection<Error> errors), U> onFail)
         {
             if(IsFailure())
@@ -139,7 +139,6 @@ namespace AnnotatedResult
         {
             return new Result<T>(default, result.Status, result.Errors.ToArray());
         }
-
 
         /// <summary>
         /// Creates a new <see cref="Result{T}"/> instance representing a successful operation with the specified value.
