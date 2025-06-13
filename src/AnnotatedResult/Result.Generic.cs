@@ -131,6 +131,29 @@ namespace AnnotatedResult
         }
 
         /// <summary>
+        /// Creates a new <see cref="Result{T}"/> instance representing an empty result with a status of <see cref="ResultStatus.Error"/>.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="Result{T}"/> instance with a default value and a status of <see cref="ResultStatus.Error"/>.
+        /// </returns>
+        public static new Result<T> CreateEmpty()
+        {
+            return new Result<T>(default, ResultStatus.Error);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="Result{T}"/> instance representing an empty result with a status of <see cref="ResultStatus.Error"/> and an error message.
+        /// </summary>
+        /// <param name="message">The error message to include in the result.</param>
+        /// <returns>
+        /// A new <see cref="Result{T}"/> instance with a status of <see cref="ResultStatus.Error"/> and an error containing the specified message.
+        /// </returns>
+        public static new Result<T> CreateEmpty(string message)
+        {
+            return new Result<T>(default, ResultStatus.Error, new Error(message));
+        }
+
+        /// <summary>
         /// Creates a new <see cref="Result{T}"/> instance by inheriting the status and errors from another result.
         /// </summary>
         /// <param name="result">The result to inherit from.</param>
