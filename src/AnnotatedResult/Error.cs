@@ -19,8 +19,8 @@ namespace AnnotatedResult
         /// Initializes a new instance of the <see cref="Error"/> struct with the specified message and optional severity.
         /// </summary>
         /// <param name="message">The error message.</param>
-        /// <param name="severity">The severity level of the error (default is <see cref="ErrorSeverity.Information"/>).</param>
-        public Error(string message, ErrorSeverity severity = ErrorSeverity.Information)
+        /// <param name="severity">The severity level of the error (default is <see cref="ErrorSeverity.Warning"/>).</param>
+        public Error(string message, ErrorSeverity severity = ErrorSeverity.Warning)
         {
             Message = message;
             Severity = severity;
