@@ -66,3 +66,11 @@ public class Request
 ```
 
 
+Declaring empty `Result`. By default it return `Result` with the standard `Error`
+``` csharp
+    var result1 = Result.CreateEmpty();
+    var result2 = Result.CreateEmpty("there's nothing inside, empty result");
+    var result3 = Result<Request>.CreateEmpty();
+    var result4 = Result<Request>.CreateEmpty("there's nothing inside, empty result");
+```
+
