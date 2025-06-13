@@ -67,8 +67,8 @@ public class TestEndpoint : IRouteEndpoint
     {
         var result = Registration(request);
         return result.Match(
-            value => Results.Ok(value),
-            fault => fault.WithProblemDetails(new ProblemDetails
+            onPass: value => Results.Ok(value),
+            onFail: error => error.WithProblemDetails(new ProblemDetails
             {
                 Title = "Failed"
             },

@@ -54,43 +54,43 @@ namespace AnnotatedResult
         /// <summary>
         /// Executes one of the provided actions depending on whether the result is successful or a failure.
         /// </summary>
-        /// <param name="onValue">
+        /// <param name="onPass">
         /// The action to execute if the result is successful. Receives the result value as a parameter.
         /// </param>
-        /// <param name="onFault">
+        /// <param name="onFail">
         /// The action to execute if the result is a failure. Receives a tuple containing the result status and a read-only collection of errors.
         /// </param>
-        public void Match(Action<T> onValue, Action<(ResultStatus status, ReadOnlyCollection<Error> errors)> onFault)
+        public void Match(Action<T> onPass, Action<(ResultStatus status, ReadOnlyCollection<Error> errors)> onFail)
         {
             if (IsFailure())
             {
-                onFault((Status, Errors));
+                onFail((Status, Errors));
             }
 
-            onValue(Value);
+            onPass(Value);
         }
 
     /// <summary>
     /// Executes one of the provided functions depending on whether the result is successful or a failure, and returns the function's result.
     /// </summary>
     /// <typeparam name="U">The type of the value to return from the function.</typeparam>
-    /// <param name="onValue">
+    /// <param name="onPass">
     /// The function to execute if the result is successful. Receives the result value as a parameter.
     /// </param>
-    /// <param name="onFault">
+    /// <param name="onFail">
     /// The function to execute if the result is a failure. Receives a tuple containing the result status and a read-only collection of errors.
     /// </param>
     /// <returns>
-    /// The value returned by either <paramref name="onValue"/> or <paramref name="onFault"/>, depending on the result status.
+    /// The value returned by either <paramref name="onPass"/> or <paramref name="onFail"/>, depending on the result status.
     /// </returns>
-        public U Match<U>(Func<T, U> onValue, Func<(ResultStatus status, ReadOnlyCollection<Error> errors), U> onFault)
+        public U Match<U>(Func<T, U> onPass, Func<(ResultStatus status, ReadOnlyCollection<Error> errors), U> onFail)
         {
             if(IsFailure())
             {
-                return onFault((Status, Errors));
+                return onFail((Status, Errors));
             }
 
-            return onValue(Value);
+            return onPass(Value);
         }
 
         /// <summary>
