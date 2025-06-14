@@ -8,9 +8,8 @@ namespace AnnotatedResult.DataAnnotations
     /// <summary>
     /// Attribute for validating complex objects using data annotations.
     /// </summary>
-    [Obsolete("ValidateObject attribute is obsolete. Use ComplexProperty attribute instead.")]
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
-    public class ValidateObjectAttribute : ValidationAttribute
+    public class ComplexPropertyAttribute : ValidationAttribute
     {
         /// <summary>
         /// Validates the specified value and returns a <see cref="ValidationResult"/> indicating whether validation succeeded.

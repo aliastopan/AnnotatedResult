@@ -21,5 +21,10 @@ namespace AnnotatedResult.Internal
         {
             return Attribute.IsDefined(property, typeof(ValidateObjectAttribute));
         }
+
+        internal static bool HasComplexPropertyAttribute(this PropertyInfo property)
+        {
+            return Attribute.IsDefined(property, typeof(ComplexPropertyAttribute));
+        }
     }
 }

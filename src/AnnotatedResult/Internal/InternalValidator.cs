@@ -21,7 +21,7 @@ namespace AnnotatedResult.Internal
         public bool TryValidate<T>(T instance, out Error[] errors)
         {
             var properties = instance.GetType().GetProperties();
-            foreach(var property in properties)
+            foreach (var property in properties)
             {
                 ValidateRequired(instance, property);
                 ValidateOptional(instance, property);
@@ -40,7 +40,7 @@ namespace AnnotatedResult.Internal
 
         private void ValidateRequired<T>(T instance, PropertyInfo property)
         {
-            if(property.IsRequired())
+            if (property.IsRequired())
             {
                 ValidateProperty(instance, property, ErrorSeverity.Error);
             }
@@ -48,7 +48,7 @@ namespace AnnotatedResult.Internal
 
         private void ValidateOptional<T>(T instance, PropertyInfo property)
         {
-            if(property.IsOptional())
+            if (property.IsOptional())
             {
                 ValidateProperty(instance, property, ErrorSeverity.Warning);
             }
@@ -62,28 +62,35 @@ namespace AnnotatedResult.Internal
             };
             var value = instance.GetType().GetProperty(property.Name)?.GetValue(instance);
             var isValid = Validator.TryValidateProperty(value, context, _results);
-            if(!isValid)
+
+            if (!isValid)
             {
-                SummarizeErrors(property, severity);
+                FormatErrors(property, severity);
             }
         }
 
-        private void SummarizeErrors(PropertyInfo property, ErrorSeverity severity)
+        private void FormatErrors(PropertyInfo property, ErrorSeverity severity)
         {
-            if(!property.HasValidateObjectAttribute())
+            var isComplexProperty =
+                property.HasValidateObjectAttribute() ||
+                property.HasComplexPropertyAttribute();
+
+            if (isComplexProperty)
+            {
+                var errorStrings = ValidationResult.ErrorMessage.Split('|');
+                foreach (var error in errorStrings)
+                {
+                    var errorString = error.Split('`');
+                    var errorSeverity = (ErrorSeverity)Enum.Parse(typeof(ErrorSeverity), errorString[0]);
+                    var errorMessage = errorString[1];
+                    _errors.Add(new Error(errorMessage, errorSeverity));
+                }
+            }
+            else
             {
                 _errors.Add(new Error(ValidationResult.ErrorMessage, severity));
-                return;
             }
 
-            var errorStrings = ValidationResult.ErrorMessage.Split('|');
-            foreach(var error in errorStrings)
-            {
-                var errorString = error.Split('`');
-                var errorSeverity = (ErrorSeverity)Enum.Parse(typeof(ErrorSeverity), errorString[0]);
-                var errorMessage = errorString[1];
-                _errors.Add(new Error(errorMessage, errorSeverity));
-            }
         }
     }
 }

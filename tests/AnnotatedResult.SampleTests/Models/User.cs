@@ -12,7 +12,8 @@ public class User
     public string Email { get; init; } = null!;
 
     [Required]
-    [ValidateObject(ErrorMessage = "Missing Profile")]
+    // [ValidateObject(ErrorMessage = "Missing Profile")] obsolete
+    [ComplexProperty(ErrorMessage = "Missing Profile")]
     public Profile Profile { get; init; } = new Profile();
 }
 
@@ -25,7 +26,7 @@ public class Profile
     public string LastName { get; init; } = null!;
 
     [Required]
-    [ValidateObject(ErrorMessage = "")]
+    [ComplexProperty(ErrorMessage = "")]
     public Address Address { get; set; } = new Address();
 }
 
