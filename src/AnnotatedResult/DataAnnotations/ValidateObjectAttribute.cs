@@ -5,14 +5,22 @@ using AnnotatedResult.Internal;
 
 namespace AnnotatedResult.DataAnnotations
 {
+    /// <summary>
+    /// Attribute for validating complex objects using data annotations.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class ValidateObjectAttribute : ValidationAttribute
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        /// <summary>
+        /// Validates the specified value and returns a <see cref="ValidationResult"/> indicating whether validation succeeded.
+        /// </summary>
+        /// <param name="value">The value of the object to validate.</param>
+        /// <param name="context">The context information about the validation operation.</param>
+        /// <returns>
+        /// A <see cref="ValidationResult"/> instance that indicates the result of the validation.
+        /// Returns <see cref="ValidationResult.Success"/> if validation passes; otherwise, returns a result containing validation errors.
+        /// </returns>
         protected override ValidationResult IsValid(object value, ValidationContext context)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             var invalids = TryValidate(value, out List<Error> errors);
             if (invalids.Count == 0)
