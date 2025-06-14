@@ -40,7 +40,7 @@ namespace AnnotatedResult.DataAnnotations
             }
 
             var errorMessage = errorStrings.Join(separator: "|");
-            var result = new CompositeValidationResult(errorMessage);
+            var result = new ComplexPropertyValidationResult(errorMessage);
             invalids.ForEach(invalid => result.Add(invalid));
             return result;
         }

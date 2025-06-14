@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AnnotatedResult.Internal
 {
-    internal sealed class CompositeValidationResult : ValidationResult
+    internal sealed class ComplexPropertyValidationResult : ValidationResult
     {
         private readonly List<ValidationResult> _results;
 
-        internal CompositeValidationResult(string errorMessage)
+        internal ComplexPropertyValidationResult(string errorMessage)
             : base(errorMessage)
         {
             _results = new List<ValidationResult>();
