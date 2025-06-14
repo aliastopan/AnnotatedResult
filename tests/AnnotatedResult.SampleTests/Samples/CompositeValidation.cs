@@ -2,7 +2,7 @@ using AnnotatedResult.SampleTests.Models;
 
 namespace AnnotatedResult.SampleTests.Samples;
 
-public static class CompositeValidation
+public static class ComplexPropertyValidation
 {
     public static void Run()
     {
