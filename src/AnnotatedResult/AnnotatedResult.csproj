@@ -4,7 +4,7 @@
     <RootNamespace>AnnotatedResult</RootNamespace>
     <AssemblyName>AnnotatedResult</AssemblyName>
     <PackageId>AnnotatedResult</PackageId>
-    <Version>2.1.0-preview</Version>
+    <Version>2.1.0-preview.2</Version>
     <Authors>Taufan Augusta</Authors>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
