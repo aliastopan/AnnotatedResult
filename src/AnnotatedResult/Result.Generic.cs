@@ -85,7 +85,7 @@ namespace AnnotatedResult
         /// </returns>
         public U Match<U>(Func<T, U> onPass, Func<(ResultStatus status, ReadOnlyCollection<Error> errors), U> onFail)
         {
-            if(IsFailure())
+            if (IsFailure())
             {
                 return onFail((Status, Errors));
             }
@@ -107,7 +107,7 @@ namespace AnnotatedResult
         public static Result<T> Validate(T value, IResultValidator validator)
         {
             var isValid = validator.TryValidate(value, out Error[] errors);
-            if(isValid)
+            if (isValid)
             {
                 return Result<T>.Ok(value);
             }
