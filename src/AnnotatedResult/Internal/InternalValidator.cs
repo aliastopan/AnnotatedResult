@@ -70,7 +70,7 @@ namespace AnnotatedResult.Internal
 
         private void SummarizeErrors(PropertyInfo property, ErrorSeverity severity)
         {
-            if(!property.HasCompositeValidation())
+            if(!property.HasValidateObjectAttribute())
             {
                 _errors.Add(new Error(ValidationResult.ErrorMessage, severity));
                 return;

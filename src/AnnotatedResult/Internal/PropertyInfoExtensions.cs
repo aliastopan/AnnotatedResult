@@ -17,7 +17,7 @@ namespace AnnotatedResult.Internal
             return Attribute.IsDefined(property, typeof(ValidationAttribute)) && !property.IsRequired();
         }
 
-        internal static bool HasCompositeValidation(this PropertyInfo property)
+        internal static bool HasValidateObjectAttribute(this PropertyInfo property)
         {
             return Attribute.IsDefined(property, typeof(ValidateObjectAttribute));
         }
