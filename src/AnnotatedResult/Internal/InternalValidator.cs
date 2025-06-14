@@ -61,9 +61,9 @@ namespace AnnotatedResult.Internal
                 MemberName = property.Name
             };
             var value = instance.GetType().GetProperty(property.Name)?.GetValue(instance);
-            var isValid = Validator.TryValidateProperty(value, context, _results);
+            var hasError = !Validator.TryValidateProperty(value, context, _results);
 
-            if (!isValid)
+            if (hasError)
             {
                 FormatErrors(property, severity);
             }
